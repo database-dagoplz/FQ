@@ -7,27 +7,117 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* ===== CSS ПЕРЕМЕННЫЕ ДЛЯ ТЕМ ===== */
+        :root {
+            --bg-color: #050508;
+            --bg-gradient-1: rgba(60, 40, 100, 0.4);
+            --bg-gradient-2: rgba(100, 60, 40, 0.3);
+            --bg-gradient-3: rgba(40, 70, 100, 0.2);
+            
+            --window-bg: rgba(18, 18, 26, 0.85);
+            --window-border: rgba(255, 255, 255, 0.08);
+            --window-shadow: rgba(0, 0, 0, 0.6);
+            
+            --header-bg: rgba(0, 0, 0, 0.3);
+            --header-border: rgba(255, 255, 255, 0.06);
+            
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.4);
+            --text-muted: rgba(255, 255, 255, 0.35);
+            
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.06);
+            --card-hover-bg: rgba(212, 175, 55, 0.06);
+            --card-hover-border: rgba(212, 175, 55, 0.3);
+            
+            --accent: rgba(212, 175, 55, 0.95);
+            --accent-dim: rgba(212, 175, 55, 0.3);
+            --accent-bg: rgba(212, 175, 55, 0.08);
+            
+            --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+            --scrollbar-hover: rgba(212, 175, 55, 0.4);
+            
+            --modal-bg: #14141c;
+            --modal-border: rgba(255, 255, 255, 0.1);
+            --modal-overlay: rgba(0, 0, 0, 0.7);
+            
+            --btn-bg: rgba(255, 255, 255, 0.04);
+            --btn-border: rgba(255, 255, 255, 0.06);
+            --btn-hover: rgba(255, 255, 255, 0.08);
+            --btn-text: rgba(255, 255, 255, 0.7);
+            
+            --dropdown-bg: rgba(18, 18, 26, 0.95);
+            --dropdown-border: rgba(255, 255, 255, 0.1);
+            --dropdown-hover: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Светлая тема */
+        [data-theme="light"] {
+            --bg-color: #f0f0f5;
+            --bg-gradient-1: rgba(180, 160, 220, 0.3);
+            --bg-gradient-2: rgba(220, 180, 140, 0.2);
+            --bg-gradient-3: rgba(140, 180, 220, 0.15);
+            
+            --window-bg: rgba(255, 255, 255, 0.85);
+            --window-border: rgba(0, 0, 0, 0.08);
+            --window-shadow: rgba(0, 0, 0, 0.15);
+            
+            --header-bg: rgba(0, 0, 0, 0.03);
+            --header-border: rgba(0, 0, 0, 0.06);
+            
+            --text-primary: rgba(0, 0, 0, 0.9);
+            --text-secondary: rgba(0, 0, 0, 0.5);
+            --text-muted: rgba(0, 0, 0, 0.4);
+            
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --card-border: rgba(0, 0, 0, 0.08);
+            --card-hover-bg: rgba(212, 175, 55, 0.08);
+            --card-hover-border: rgba(212, 175, 55, 0.4);
+            
+            --accent: rgba(180, 140, 20, 0.95);
+            --accent-dim: rgba(180, 140, 20, 0.3);
+            --accent-bg: rgba(212, 175, 55, 0.1);
+            
+            --scrollbar-thumb: rgba(0, 0, 0, 0.15);
+            --scrollbar-hover: rgba(180, 140, 20, 0.5);
+            
+            --modal-bg: #ffffff;
+            --modal-border: rgba(0, 0, 0, 0.1);
+            --modal-overlay: rgba(0, 0, 0, 0.5);
+            
+            --btn-bg: rgba(0, 0, 0, 0.04);
+            --btn-border: rgba(0, 0, 0, 0.08);
+            --btn-hover: rgba(0, 0, 0, 0.08);
+            --btn-text: rgba(0, 0, 0, 0.7);
+            
+            --dropdown-bg: rgba(255, 255, 255, 0.95);
+            --dropdown-border: rgba(0, 0, 0, 0.1);
+            --dropdown-hover: rgba(212, 175, 55, 0.15);
+        }
+
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #050508;
+            background: var(--bg-color);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: background 0.3s ease;
         }
 
-        /* ===== ЛЁГКИЙ СТАТИЧНЫЙ ФОН (0% НАГРУЗКИ) ===== */
+        /* ===== ФОН ===== */
         .bg {
             position: fixed;
             inset: 0;
             z-index: -1;
             background: 
-                radial-gradient(ellipse at 20% 30%, rgba(60, 40, 100, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(100, 60, 40, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(40, 70, 100, 0.2) 0%, transparent 60%),
-                #050508;
+                radial-gradient(ellipse at 20% 30%, var(--bg-gradient-1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, var(--bg-gradient-2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, var(--bg-gradient-3) 0%, transparent 60%),
+                var(--bg-color);
+            transition: background 0.3s ease;
         }
 
-        /* ===== СТЕКЛЯННОЕ ОКНО (БЕЗ backdrop-filter!) ===== */
+        /* ===== СТЕКЛЯННОЕ ОКНО ===== */
         .glass-window {
             position: fixed;
             top: 50%; left: 50%;
@@ -35,17 +125,16 @@
             width: min(85vw, 1100px);
             height: min(85vh, 850px);
             z-index: 2;
-            /* Просто полупрозрачный фон — быстро и красиво */
-            background: rgba(18, 18, 26, 0.85);
+            background: var(--window-bg);
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--window-border);
+            box-shadow: 0 30px 60px -20px var(--window-shadow);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
 
-        /* Тонкий блик сверху */
         .glass-window::before {
             content: '';
             position: absolute;
@@ -63,17 +152,100 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 28px;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--header-border);
+            transition: all 0.3s ease;
         }
 
         .header-left, .header-right { display: flex; align-items: center; gap: 12px; }
 
-        .header-placeholder {
-            width: 80px; height: 28px; border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+        /* ===== КНОПКИ В HEADER ===== */
+        .header-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            border-radius: 8px;
+            color: var(--btn-text);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
         }
-        .header-placeholder.small { width: 32px; height: 32px; border-radius: 50%; }
+
+        .header-btn:hover {
+            background: var(--btn-hover);
+            border-color: var(--accent-dim);
+            color: var(--accent);
+        }
+
+        .header-btn .icon {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-btn .label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== DROPDOWN МЕНЮ ЯЗЫКА ===== */
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            min-width: 140px;
+            background: var(--dropdown-bg);
+            border: 1px solid var(--dropdown-border);
+            border-radius: 10px;
+            padding: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .lang-option:hover {
+            background: var(--dropdown-hover);
+            color: var(--accent);
+        }
+
+        .lang-option.active {
+            background: var(--accent-bg);
+            color: var(--accent);
+        }
+
+        .lang-flag {
+            font-size: 18px;
+        }
 
         /* ===== КОНТЕНТ ===== */
         .content {
@@ -85,8 +257,8 @@
 
         .content::-webkit-scrollbar { width: 6px; }
         .content::-webkit-scrollbar-track { background: transparent; }
-        .content::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 3px; }
-        .content::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.4); }
+        .content::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+        .content::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
 
         /* ===== ЗАГОЛОВОК ГЛАВЫ ===== */
         .chapter-header {
@@ -102,7 +274,7 @@
             font-size: 64px;
             font-weight: 700;
             line-height: 1;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.3));
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -113,18 +285,18 @@
 
         .chapter-label {
             font-size: 11px; font-weight: 600; letter-spacing: 3px;
-            text-transform: uppercase; color: rgba(212, 175, 55, 0.8);
+            text-transform: uppercase; color: var(--accent);
         }
 
         .chapter-title {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 32px; font-weight: 700; color: rgba(255, 255, 255, 0.95);
+            font-size: 32px; font-weight: 700; color: var(--text-primary);
             letter-spacing: -0.5px; line-height: 1.1;
         }
 
         .chapter-divider {
             width: 100%; height: 1px;
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), rgba(255, 255, 255, 0.08) 50%, transparent);
+            background: linear-gradient(90deg, var(--accent-dim), var(--text-muted) 50%, transparent);
             margin-bottom: 32px;
         }
 
@@ -139,37 +311,37 @@
 
         .faq-card {
             position: relative; padding: 20px 22px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 14px;
             transition: background 0.2s, border-color 0.2s, transform 0.2s;
             cursor: default;
         }
 
         .faq-card:hover {
-            background: rgba(212, 175, 55, 0.06);
-            border-color: rgba(212, 175, 55, 0.3);
+            background: var(--card-hover-bg);
+            border-color: var(--card-hover-border);
             transform: translateY(-2px);
         }
 
         .faq-icon {
             width: 40px; height: 40px; border-radius: 10px;
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--card-bg); border: 1px solid var(--card-border);
             display: flex; align-items: center; justify-content: center;
             font-size: 18px; margin-bottom: 12px;
         }
 
         .faq-label {
             font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
-            text-transform: uppercase; color: rgba(255, 255, 255, 0.35); margin-bottom: 4px;
+            text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px;
         }
 
         .faq-value {
-            font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.92);
+            font-size: 16px; font-weight: 600; color: var(--text-primary);
             word-break: break-word;
         }
 
-        .faq-card:hover .faq-value { color: rgba(212, 175, 55, 0.95); }
+        .faq-card:hover .faq-value { color: var(--accent); }
         .faq-card.wide { grid-column: span 2; }
         .faq-card.wide .faq-value { font-size: 14px; line-height: 1.5; }
 
@@ -182,50 +354,50 @@
 
         .link-card {
             position: relative; display: flex; align-items: center; gap: 16px;
-            padding: 20px 24px; background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px;
+            padding: 20px 24px; background: var(--card-bg);
+            border: 1px solid var(--card-border); border-radius: 14px;
             text-decoration: none; color: inherit;
             transition: background 0.2s, border-color 0.2s, transform 0.2s;
         }
 
         .link-card:hover {
-            background: rgba(212, 175, 55, 0.06);
-            border-color: rgba(212, 175, 55, 0.4);
+            background: var(--card-hover-bg);
+            border-color: var(--card-hover-border);
             transform: translateY(-2px);
         }
 
         .link-icon {
             width: 48px; height: 48px; border-radius: 12px;
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--card-bg); border: 1px solid var(--card-border);
             display: flex; align-items: center; justify-content: center;
             font-size: 22px; flex-shrink: 0;
         }
 
         .link-info { display: flex; flex-direction: column; gap: 2px; }
-        .link-name { font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.95); }
-        .link-desc { font-size: 12px; color: rgba(255, 255, 255, 0.4); }
+        .link-name { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+        .link-desc { font-size: 12px; color: var(--text-secondary); }
 
         .link-arrow {
-            margin-left: auto; font-size: 18px; color: rgba(255, 255, 255, 0.2);
+            margin-left: auto; font-size: 18px; color: var(--text-muted);
             transition: transform 0.2s, color 0.2s;
         }
-        .link-card:hover .link-arrow { color: rgba(212, 175, 55, 0.9); transform: translateX(4px); }
+        .link-card:hover .link-arrow { color: var(--accent); transform: translateX(4px); }
 
         .link-card.donate-card {
             grid-column: span 2;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
-            border-color: rgba(212, 175, 55, 0.2);
+            background: linear-gradient(135deg, var(--accent-bg), rgba(212, 175, 55, 0.02));
+            border-color: var(--accent-dim);
             justify-content: center; text-align: center; flex-direction: column; gap: 8px; padding: 28px;
         }
-        .link-card.donate-card .link-icon { width: 56px; height: 56px; font-size: 28px; background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.3); }
-        .link-card.donate-card .link-name { font-size: 20px; color: rgba(212, 175, 55, 0.95); }
+        .link-card.donate-card .link-icon { width: 56px; height: 56px; font-size: 28px; background: rgba(212, 175, 55, 0.1); border-color: var(--accent-dim); }
+        .link-card.donate-card .link-name { font-size: 20px; color: var(--accent); }
         .link-card.donate-card .link-arrow { display: none; }
-        .link-card.donate-card:hover { border-color: rgba(212, 175, 55, 0.6); }
+        .link-card.donate-card:hover { border-color: var(--accent); }
 
         /* ===== МОДАЛКА ===== */
         .modal-overlay {
             position: fixed; inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: var(--modal-overlay);
             z-index: 100;
             display: flex; align-items: center; justify-content: center;
             opacity: 0; visibility: hidden;
@@ -235,8 +407,8 @@
 
         .modal-content {
             width: min(90vw, 440px);
-            background: #14141c;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--modal-bg);
+            border: 1px solid var(--modal-border);
             border-radius: 20px;
             padding: 32px;
             position: relative;
@@ -249,9 +421,9 @@
         .modal-close {
             position: absolute; top: 16px; right: 16px;
             width: 32px; height: 32px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6); font-size: 18px;
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--btn-text); font-size: 18px;
             cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
         .modal-close:hover { background: rgba(240, 140, 140, 0.2); color: #f08c8c; }
@@ -259,7 +431,7 @@
         .modal-title {
             font-family: 'Playfair Display', Georgia, serif;
             font-size: 22px; font-weight: 700;
-            color: rgba(255, 255, 255, 0.95); text-align: center; margin-bottom: 24px;
+            color: var(--text-primary); text-align: center; margin-bottom: 24px;
         }
 
         .donate-options { display: flex; flex-direction: column; gap: 14px; }
@@ -273,8 +445,8 @@
         .donate-btn.steam { background: rgba(27, 40, 56, 0.8); color: #fff; border-color: rgba(102, 192, 244, 0.2); }
         .donate-btn.steam:hover { border-color: rgba(102, 192, 244, 0.6); transform: translateX(4px); }
         
-        .donate-btn.money { background: rgba(212, 175, 55, 0.15); color: rgba(212, 175, 55, 0.95); border-color: rgba(212, 175, 55, 0.3); }
-        .donate-btn.money:hover { border-color: rgba(212, 175, 55, 0.6); transform: translateX(4px); }
+        .donate-btn.money { background: rgba(212, 175, 55, 0.15); color: var(--accent); border-color: var(--accent-dim); }
+        .donate-btn.money:hover { border-color: var(--accent); transform: translateX(4px); }
 
         .donate-btn-icon { font-size: 22px; }
 
@@ -290,19 +462,50 @@
             .faq-card.wide, .link-card.donate-card { grid-column: span 1; }
             .chapter-number { font-size: 48px; }
             .chapter-title { font-size: 24px; }
+            .header-btn .label { display: none; }
+            .header-btn { padding: 8px 10px; }
         }
     </style>
 </head>
-<body>
-    <!-- Лёгкий статичный фон -->
+<body data-theme="dark">
     <div class="bg"></div>
 
     <div class="glass-window">
         <div class="header">
             <div class="header-left">
-                <div class="header-placeholder small"></div>
-                <div class="header-placeholder"></div>
+                <!-- Кнопка смены темы -->
+                <button class="header-btn" id="themeToggle">
+                    <span class="icon" id="themeIcon">🌙</span>
+                    <span class="label" data-i18n="theme_label">Тема</span>
+                </button>
+
+                <!-- Кнопка выбора языка -->
+                <div style="position: relative;">
+                    <button class="header-btn" id="langToggle">
+                        <span class="icon" id="currentLangFlag">🇷🇺</span>
+                        <span class="label" id="currentLangCode">RU</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option" data-lang="ru">
+                            <span class="lang-flag">🇷🇺</span>
+                            <span>Русский</span>
+                        </div>
+                        <div class="lang-option" data-lang="en">
+                            <span class="lang-flag">🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="lang-option" data-lang="de">
+                            <span class="lang-flag">🇩🇪</span>
+                            <span>Deutsch</span>
+                        </div>
+                        <div class="lang-option" data-lang="pl">
+                            <span class="lang-flag">🇵🇱</span>
+                            <span>Polski</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="header-right">
                 <div class="header-placeholder small"></div>
                 <div class="header-placeholder small"></div>
@@ -314,8 +517,8 @@
             <div class="chapter-header">
                 <div class="chapter-number">01</div>
                 <div class="chapter-title-group">
-                    <div class="chapter-label">Глава</div>
-                    <div class="chapter-title">FAST FAQ</div>
+                    <div class="chapter-label" data-i18n="chapter_label">Глава</div>
+                    <div class="chapter-title" data-i18n="chapter_01_title">FAST FAQ</div>
                 </div>
             </div>
             <div class="chapter-divider"></div>
@@ -323,48 +526,48 @@
             <div class="faq-grid">
                 <div class="faq-card">
                     <div class="faq-icon">👤</div>
-                    <div class="faq-label">Имя</div>
-                    <div class="faq-value">Артём</div>
+                    <div class="faq-label" data-i18n="faq_name">Имя</div>
+                    <div class="faq-value" data-i18n="faq_name_value">Артём</div>
                 </div>
                 <div class="faq-card">
                     <div class="faq-icon">🎂</div>
-                    <div class="faq-label">Возраст</div>
-                    <div class="faq-value">20 лет</div>
+                    <div class="faq-label" data-i18n="faq_age">Возраст</div>
+                    <div class="faq-value" data-i18n="faq_age_value">20 лет</div>
                 </div>
                 <div class="faq-card">
-                    <div class="faq-icon">🇧🇾</div>
-                    <div class="faq-label">Страна</div>
-                    <div class="faq-value">Беларусь</div>
+                    <div class="faq-icon">🇾</div>
+                    <div class="faq-label" data-i18n="faq_country">Страна</div>
+                    <div class="faq-value" data-i18n="faq_country_value">Беларусь</div>
                 </div>
                 <div class="faq-card">
-                    <div class="faq-icon">📍</div>
-                    <div class="faq-label">Город</div>
-                    <div class="faq-value">Лида</div>
+                    <div class="faq-icon"></div>
+                    <div class="faq-label" data-i18n="faq_city">Город</div>
+                    <div class="faq-value" data-i18n="faq_city_value">Лида</div>
                 </div>
                 <div class="faq-card">
                     <div class="faq-icon">🎮</div>
-                    <div class="faq-label">Часов в CS</div>
-                    <div class="faq-value">10 000+</div>
+                    <div class="faq-label" data-i18n="faq_hours">Часов в CS</div>
+                    <div class="faq-value" data-i18n="faq_hours_value">10 000+</div>
                 </div>
                 <div class="faq-card">
                     <div class="faq-icon">⚡</div>
-                    <div class="faq-label">FACEIT Level</div>
-                    <div class="faq-value">Level 3</div>
+                    <div class="faq-label" data-i18n="faq_faceit">FACEIT Level</div>
+                    <div class="faq-value" data-i18n="faq_faceit_value">Level 3</div>
                 </div>
                 <div class="faq-card wide">
                     <div class="faq-icon">🖥️</div>
-                    <div class="faq-label">Сетап</div>
-                    <div class="faq-value">R7 7800X3D · RTX 3060 Ti · 32GB DDR5</div>
+                    <div class="faq-label" data-i18n="faq_setup">Сетап</div>
+                    <div class="faq-value" data-i18n="faq_setup_value">R7 7800X3D · RTX 3060 Ti · 32GB DDR5</div>
                 </div>
                 <div class="faq-card">
                     <div class="faq-icon">📺</div>
-                    <div class="faq-label">YouTube</div>
-                    <div class="faq-value">Есть канал</div>
+                    <div class="faq-label" data-i18n="faq_youtube">YouTube</div>
+                    <div class="faq-value" data-i18n="faq_youtube_value">Есть канал</div>
                 </div>
                 <div class="faq-card">
                     <div class="faq-icon">🎵</div>
-                    <div class="faq-label">TikTok</div>
-                    <div class="faq-value">Есть аккаунт</div>
+                    <div class="faq-label" data-i18n="faq_tiktok">TikTok</div>
+                    <div class="faq-value" data-i18n="faq_tiktok_value">Есть аккаунт</div>
                 </div>
             </div>
 
@@ -375,8 +578,8 @@
             <div class="chapter-header">
                 <div class="chapter-number">02</div>
                 <div class="chapter-title-group">
-                    <div class="chapter-label">Глава</div>
-                    <div class="chapter-title">ССЫЛКИ</div>
+                    <div class="chapter-label" data-i18n="chapter_label">Глава</div>
+                    <div class="chapter-title" data-i18n="chapter_02_title">ССЫЛКИ</div>
                 </div>
             </div>
             <div class="chapter-divider"></div>
@@ -386,13 +589,13 @@
                     <div class="link-icon">🎮</div>
                     <div class="link-info">
                         <div class="link-name">Steam</div>
-                        <div class="link-desc">Мой профиль</div>
+                        <div class="link-desc" data-i18n="link_steam_desc">Мой профиль</div>
                     </div>
                     <div class="link-arrow">→</div>
                 </a>
 
                 <a href="https://www.faceit.com/ru/players/mainnotfake" target="_blank" class="link-card">
-                    <div class="link-icon"></div>
+                    <div class="link-icon">🏆</div>
                     <div class="link-info">
                         <div class="link-name">FACEIT</div>
                         <div class="link-desc">mainnotfake</div>
@@ -421,8 +624,8 @@
                 <div class="link-card donate-card" id="openDonateModal">
                     <div class="link-icon">💎</div>
                     <div class="link-info">
-                        <div class="link-name">Поддержать (DONAT)</div>
-                        <div class="link-desc">Нажми, чтобы выбрать способ</div>
+                        <div class="link-name" data-i18n="donate_title">Поддержать (DONAT)</div>
+                        <div class="link-desc" data-i18n="donate_desc">Нажми, чтобы выбрать способ</div>
                     </div>
                 </div>
             </div>
@@ -435,21 +638,208 @@
     <div class="modal-overlay" id="donateModal">
         <div class="modal-content">
             <button class="modal-close" id="closeDonateModal">&times;</button>
-            <div class="modal-title">Выберите способ поддержки</div>
+            <div class="modal-title" data-i18n="modal_title">Выберите способ поддержки</div>
             <div class="donate-options">
                 <a href="https://steamcommunity.com/tradeoffer/new/?partner=1830336994&token=SIiksOet" target="_blank" class="donate-btn steam">
                     <span class="donate-btn-icon">🔄</span>
-                    <span>Донат трейдом Steam</span>
+                    <span data-i18n="donate_steam">Донат трейдом Steam</span>
                 </a>
                 <a href="https://www.donationalerts.com/r/dagoplz1337" target="_blank" class="donate-btn money">
                     <span class="donate-btn-icon">💳</span>
-                    <span>Денежный донат</span>
+                    <span data-i18n="donate_money">Денежный донат</span>
                 </a>
             </div>
         </div>
     </div>
 
     <script>
+        // ===== ПЕРЕВОДЫ =====
+        const translations = {
+            ru: {
+                theme_label: 'Тема',
+                chapter_label: 'Глава',
+                chapter_01_title: 'FAST FAQ',
+                chapter_02_title: 'ССЫЛКИ',
+                faq_name: 'Имя',
+                faq_name_value: 'Артём',
+                faq_age: 'Возраст',
+                faq_age_value: '20 лет',
+                faq_country: 'Страна',
+                faq_country_value: 'Беларусь',
+                faq_city: 'Город',
+                faq_city_value: 'Лида',
+                faq_hours: 'Часов в CS',
+                faq_hours_value: '10 000+',
+                faq_faceit: 'FACEIT Level',
+                faq_faceit_value: 'Level 3',
+                faq_setup: 'Сетап',
+                faq_setup_value: 'R7 7800X3D · RTX 3060 Ti · 32GB DDR5',
+                faq_youtube: 'YouTube',
+                faq_youtube_value: 'Есть канал',
+                faq_tiktok: 'TikTok',
+                faq_tiktok_value: 'Есть аккаунт',
+                link_steam_desc: 'Мой профиль',
+                donate_title: 'Поддержать (DONAT)',
+                donate_desc: 'Нажми, чтобы выбрать способ',
+                modal_title: 'Выберите способ поддержки',
+                donate_steam: 'Донат трейдом Steam',
+                donate_money: 'Денежный донат'
+            },
+            en: {
+                theme_label: 'Theme',
+                chapter_label: 'Chapter',
+                chapter_01_title: 'FAST FAQ',
+                chapter_02_title: 'LINKS',
+                faq_name: 'Name',
+                faq_name_value: 'Artyom',
+                faq_age: 'Age',
+                faq_age_value: '20 years',
+                faq_country: 'Country',
+                faq_country_value: 'Belarus',
+                faq_city: 'City',
+                faq_city_value: 'Lida',
+                faq_hours: 'Hours in CS',
+                faq_hours_value: '10,000+',
+                faq_faceit: 'FACEIT Level',
+                faq_faceit_value: 'Level 3',
+                faq_setup: 'Setup',
+                faq_setup_value: 'R7 7800X3D · RTX 3060 Ti · 32GB DDR5',
+                faq_youtube: 'YouTube',
+                faq_youtube_value: 'Have a channel',
+                faq_tiktok: 'TikTok',
+                faq_tiktok_value: 'Have an account',
+                link_steam_desc: 'My profile',
+                donate_title: 'Support (DONATE)',
+                donate_desc: 'Click to choose a method',
+                modal_title: 'Choose a support method',
+                donate_steam: 'Steam Trade Donation',
+                donate_money: 'Money Donation'
+            },
+            de: {
+                theme_label: 'Thema',
+                chapter_label: 'Kapitel',
+                chapter_01_title: 'FAST FAQ',
+                chapter_02_title: 'LINKS',
+                faq_name: 'Name',
+                faq_name_value: 'Artjom',
+                faq_age: 'Alter',
+                faq_age_value: '20 Jahre',
+                faq_country: 'Land',
+                faq_country_value: 'Belarus',
+                faq_city: 'Stadt',
+                faq_city_value: 'Lida',
+                faq_hours: 'Stunden in CS',
+                faq_hours_value: '10.000+',
+                faq_faceit: 'FACEIT Level',
+                faq_faceit_value: 'Level 3',
+                faq_setup: 'Setup',
+                faq_setup_value: 'R7 7800X3D · RTX 3060 Ti · 32GB DDR5',
+                faq_youtube: 'YouTube',
+                faq_youtube_value: 'Habe einen Kanal',
+                faq_tiktok: 'TikTok',
+                faq_tiktok_value: 'Habe ein Konto',
+                link_steam_desc: 'Mein Profil',
+                donate_title: 'Unterstützen (SPENDE)',
+                donate_desc: 'Klicke, um eine Methode zu wählen',
+                modal_title: 'Wähle eine Unterstützungsmethode',
+                donate_steam: 'Steam Trade Spende',
+                donate_money: 'Geldspende'
+            },
+            pl: {
+                theme_label: 'Motyw',
+                chapter_label: 'Rozdział',
+                chapter_01_title: 'FAST FAQ',
+                chapter_02_title: 'LINKI',
+                faq_name: 'Imię',
+                faq_name_value: 'Artiom',
+                faq_age: 'Wiek',
+                faq_age_value: '20 lat',
+                faq_country: 'Kraj',
+                faq_country_value: 'Białoruś',
+                faq_city: 'Miasto',
+                faq_city_value: 'Lida',
+                faq_hours: 'Godzin w CS',
+                faq_hours_value: '10 000+',
+                faq_faceit: 'FACEIT Level',
+                faq_faceit_value: 'Level 3',
+                faq_setup: 'Setup',
+                faq_setup_value: 'R7 7800X3D · RTX 3060 Ti · 32GB DDR5',
+                faq_youtube: 'YouTube',
+                faq_youtube_value: 'Mam kanał',
+                faq_tiktok: 'TikTok',
+                faq_tiktok_value: 'Mam konto',
+                link_steam_desc: 'Mój profil',
+                donate_title: 'Wesprzyj (DONAT)',
+                donate_desc: 'Kliknij, aby wybrać metodę',
+                modal_title: 'Wybierz metodę wsparcia',
+                donate_steam: 'Donat trade\'em Steam',
+                donate_money: 'Donat pieniężny'
+            }
+        };
+
+        const langFlags = { ru: '🇺', en: '🇬🇧', de: '🇩', pl: '🇵🇱' };
+        const langCodes = { ru: 'RU', en: 'EN', de: 'DE', pl: 'PL' };
+
+        let currentLang = localStorage.getItem('lang') || 'ru';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            document.getElementById('currentLangFlag').textContent = langFlags[lang];
+            document.getElementById('currentLangCode').textContent = langCodes[lang];
+
+            document.querySelectorAll('.lang-option').forEach(opt => {
+                opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // ===== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ =====
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
+
+        // ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА =====
+        const langToggle = document.getElementById('langToggle');
+        const langDropdown = document.getElementById('langDropdown');
+
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+        });
+
+        document.querySelectorAll('.lang-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                setLanguage(opt.getAttribute('data-lang'));
+                langDropdown.classList.remove('show');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!langToggle.contains(e.target)) {
+                langDropdown.classList.remove('show');
+            }
+        });
+
+        // ===== МОДАЛКА =====
         const openBtn = document.getElementById('openDonateModal');
         const modal = document.getElementById('donateModal');
         const closeBtn = document.getElementById('closeDonateModal');
@@ -458,6 +848,10 @@
         closeBtn.addEventListener('click', () => modal.classList.remove('active'));
         modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) modal.classList.remove('active'); });
+
+        // Инициализация
+        setTheme(currentTheme);
+        setLanguage(currentLang);
     </script>
 </body>
 </html>
