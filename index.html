@@ -15,57 +15,19 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        /* ===== ОПТИМИЗИРОВАННЫЙ CSS ФОН (0% НАГРУЗКИ, 60+ FPS) ===== */
-        .bg-layer {
+        /* ===== ЛЁГКИЙ СТАТИЧНЫЙ ФОН (0% НАГРУЗКИ) ===== */
+        .bg {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: #050508;
-            overflow: hidden;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(60, 40, 100, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(100, 60, 40, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(40, 70, 100, 0.2) 0%, transparent 60%),
+                #050508;
         }
 
-        .bg-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.5;
-            will-change: transform;
-        }
-
-        .blob-1 {
-            width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(60, 40, 100, 0.6) 0%, transparent 70%);
-            top: -10%; left: -10%;
-            animation: float1 25s ease-in-out infinite alternate;
-        }
-
-        .blob-2 {
-            width: 50vw; height: 50vw;
-            background: radial-gradient(circle, rgba(100, 60, 40, 0.4) 0%, transparent 70%);
-            bottom: -10%; right: -10%;
-            animation: float2 30s ease-in-out infinite alternate-reverse;
-        }
-
-        .blob-3 {
-            width: 40vw; height: 40vw;
-            background: radial-gradient(circle, rgba(40, 70, 100, 0.3) 0%, transparent 70%);
-            top: 40%; left: 40%;
-            animation: float3 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes float1 { 0% { transform: translate(0, 0); } 100% { transform: translate(80px, 60px); } }
-        @keyframes float2 { 0% { transform: translate(0, 0); } 100% { transform: translate(-60px, -80px); } }
-        @keyframes float3 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -40px) scale(1.1); } }
-
-        .vignette {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 30%, rgba(3, 3, 6, 0.8) 100%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ===== СТЕКЛЯННОЕ ОКНО ===== */
+        /* ===== СТЕКЛЯННОЕ ОКНО (БЕЗ backdrop-filter!) ===== */
         .glass-window {
             position: fixed;
             top: 50%; left: 50%;
@@ -73,22 +35,27 @@
             width: min(85vw, 1100px);
             height: min(85vh, 850px);
             z-index: 2;
-            background: rgba(255, 255, 255, 0.03);
-            /* Уменьшен blur для производительности, визуально почти то же самое */
-            backdrop-filter: blur(24px) saturate(1.4);
-            -webkit-backdrop-filter: blur(24px) saturate(1.4);
+            /* Просто полупрозрачный фон — быстро и красиво */
+            background: rgba(18, 18, 26, 0.85);
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow:
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
-                inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
-                0 30px 60px -20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* ===== ВЕРХНЯЯ ПОЛОСКА ===== */
+        /* Тонкий блик сверху */
+        .glass-window::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            pointer-events: none;
+        }
+
+        /* ===== HEADER ===== */
         .header {
             height: 60px;
             flex-shrink: 0;
@@ -96,7 +63,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 28px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(0, 0, 0, 0.3);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
@@ -108,13 +75,12 @@
         }
         .header-placeholder.small { width: 32px; height: 32px; border-radius: 50%; }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ (СКРОЛЛ) ===== */
+        /* ===== КОНТЕНТ ===== */
         .content {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
             padding: 40px 48px;
-            scroll-behavior: smooth;
         }
 
         .content::-webkit-scrollbar { width: 6px; }
@@ -136,7 +102,7 @@
             font-size: 64px;
             font-weight: 700;
             line-height: 1;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9) 0%, rgba(212, 175, 55, 0.3) 100%);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -158,13 +124,13 @@
 
         .chapter-divider {
             width: 100%; height: 1px;
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.4) 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), rgba(255, 255, 255, 0.08) 50%, transparent);
             margin-bottom: 32px;
         }
 
         .chapter-spacer { height: 60px; }
 
-        /* ===== GRID КАРТОЧЕК (FAQ) ===== */
+        /* ===== FAQ GRID ===== */
         .faq-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -173,20 +139,15 @@
 
         .faq-card {
             position: relative; padding: 20px 22px;
-            background: rgba(255, 255, 255, 0.025);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 14px;
-            transition: all 0.3s ease;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
             cursor: default;
         }
 
-        .faq-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        }
-
         .faq-card:hover {
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(212, 175, 55, 0.06);
             border-color: rgba(212, 175, 55, 0.3);
             transform: translateY(-2px);
         }
@@ -195,10 +156,8 @@
             width: 40px; height: 40px; border-radius: 10px;
             background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.06);
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px; margin-bottom: 12px; transition: all 0.3s;
+            font-size: 18px; margin-bottom: 12px;
         }
-
-        .faq-card:hover .faq-icon { background: rgba(212, 175, 55, 0.15); transform: scale(1.05); }
 
         .faq-label {
             font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
@@ -207,14 +166,14 @@
 
         .faq-value {
             font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.92);
-            transition: color 0.3s; word-break: break-word;
+            word-break: break-word;
         }
 
         .faq-card:hover .faq-value { color: rgba(212, 175, 55, 0.95); }
         .faq-card.wide { grid-column: span 2; }
         .faq-card.wide .faq-value { font-size: 14px; line-height: 1.5; }
 
-        /* ===== СЕТКА ССЫЛОК ===== */
+        /* ===== LINKS GRID ===== */
         .links-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -223,18 +182,14 @@
 
         .link-card {
             position: relative; display: flex; align-items: center; gap: 16px;
-            padding: 20px 24px; background: rgba(255, 255, 255, 0.025);
+            padding: 20px 24px; background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px;
-            text-decoration: none; color: inherit; transition: all 0.3s ease;
-        }
-
-        .link-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            text-decoration: none; color: inherit;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
         }
 
         .link-card:hover {
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(212, 175, 55, 0.06);
             border-color: rgba(212, 175, 55, 0.4);
             transform: translateY(-2px);
         }
@@ -243,23 +198,22 @@
             width: 48px; height: 48px; border-radius: 12px;
             background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex; align-items: center; justify-content: center;
-            font-size: 22px; flex-shrink: 0; transition: all 0.3s;
+            font-size: 22px; flex-shrink: 0;
         }
-
-        .link-card:hover .link-icon { background: rgba(212, 175, 55, 0.15); transform: scale(1.05); }
 
         .link-info { display: flex; flex-direction: column; gap: 2px; }
         .link-name { font-size: 16px; font-weight: 600; color: rgba(255, 255, 255, 0.95); }
         .link-desc { font-size: 12px; color: rgba(255, 255, 255, 0.4); }
 
         .link-arrow {
-            margin-left: auto; font-size: 18px; color: rgba(255, 255, 255, 0.2); transition: all 0.3s;
+            margin-left: auto; font-size: 18px; color: rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s, color 0.2s;
         }
         .link-card:hover .link-arrow { color: rgba(212, 175, 55, 0.9); transform: translateX(4px); }
 
         .link-card.donate-card {
             grid-column: span 2;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.02) 100%);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
             border-color: rgba(212, 175, 55, 0.2);
             justify-content: center; text-align: center; flex-direction: column; gap: 8px; padding: 28px;
         }
@@ -268,59 +222,61 @@
         .link-card.donate-card .link-arrow { display: none; }
         .link-card.donate-card:hover { border-color: rgba(212, 175, 55, 0.6); }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        /* ===== МОДАЛКА ===== */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            z-index: 100; display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
         }
         .modal-overlay.active { opacity: 1; visibility: visible; }
 
         .modal-content {
-            width: min(90vw, 440px); background: rgba(20, 20, 28, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
-            padding: 32px; position: relative;
-            transform: scale(0.95) translateY(20px); transition: all 0.3s ease;
+            width: min(90vw, 440px);
+            background: #14141c;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.2s;
             box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
         }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
 
         .modal-close {
-            position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
-            border-radius: 50%; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.6);
-            font-size: 18px; cursor: pointer; display: flex; align-items: center;
-            justify-content: center; transition: all 0.3s;
+            position: absolute; top: 16px; right: 16px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6); font-size: 18px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
         }
-        .modal-close:hover { background: rgba(240, 140, 140, 0.2); border-color: rgba(240, 140, 140, 0.4); color: #f08c8c; }
+        .modal-close:hover { background: rgba(240, 140, 140, 0.2); color: #f08c8c; }
 
         .modal-title {
-            font-family: 'Playfair Display', Georgia, serif; font-size: 22px;
-            font-weight: 700; color: rgba(255, 255, 255, 0.95); text-align: center; margin-bottom: 24px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px; font-weight: 700;
+            color: rgba(255, 255, 255, 0.95); text-align: center; margin-bottom: 24px;
         }
 
         .donate-options { display: flex; flex-direction: column; gap: 14px; }
 
         .donate-btn {
-            display: flex; align-items: center; gap: 14px; padding: 18px 20px;
-            border-radius: 12px; text-decoration: none; font-size: 15px; font-weight: 600;
-            transition: all 0.3s; border: 1px solid transparent;
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 20px; border-radius: 12px;
+            text-decoration: none; font-size: 15px; font-weight: 600;
+            transition: transform 0.2s; border: 1px solid transparent;
         }
-        .donate-btn.steam { background: rgba(27, 40, 56, 0.6); color: #fff; border-color: rgba(102, 192, 244, 0.2); }
-        .donate-btn.steam:hover { background: rgba(27, 40, 56, 0.9); border-color: rgba(102, 192, 244, 0.6); transform: translateX(4px); }
+        .donate-btn.steam { background: rgba(27, 40, 56, 0.8); color: #fff; border-color: rgba(102, 192, 244, 0.2); }
+        .donate-btn.steam:hover { border-color: rgba(102, 192, 244, 0.6); transform: translateX(4px); }
         
-        .donate-btn.money { background: rgba(212, 175, 55, 0.1); color: rgba(212, 175, 55, 0.95); border-color: rgba(212, 175, 55, 0.3); }
-        .donate-btn.money:hover { background: rgba(212, 175, 55, 0.2); border-color: rgba(212, 175, 55, 0.6); transform: translateX(4px); }
+        .donate-btn.money { background: rgba(212, 175, 55, 0.15); color: rgba(212, 175, 55, 0.95); border-color: rgba(212, 175, 55, 0.3); }
+        .donate-btn.money:hover { border-color: rgba(212, 175, 55, 0.6); transform: translateX(4px); }
 
         .donate-btn-icon { font-size: 22px; }
-
-        /* Блик окна */
-        .glass-window::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.12) 50%, transparent 100%);
-            z-index: 10; pointer-events: none;
-        }
 
         /* Адаптивность */
         @media (max-width: 900px) {
@@ -338,13 +294,8 @@
     </style>
 </head>
 <body>
-    <!-- Оптимизированный CSS фон (без лагов) -->
-    <div class="bg-layer">
-        <div class="bg-blob blob-1"></div>
-        <div class="bg-blob blob-2"></div>
-        <div class="bg-blob blob-3"></div>
-    </div>
-    <div class="vignette"></div>
+    <!-- Лёгкий статичный фон -->
+    <div class="bg"></div>
 
     <div class="glass-window">
         <div class="header">
@@ -359,7 +310,7 @@
         </div>
 
         <div class="content">
-            <!-- ================= ГЛАВА 01 ================= -->
+            <!-- ГЛАВА 01 -->
             <div class="chapter-header">
                 <div class="chapter-number">01</div>
                 <div class="chapter-title-group">
@@ -417,11 +368,10 @@
                 </div>
             </div>
 
-            <!-- Разделитель между главами -->
             <div class="chapter-spacer"></div>
             <div class="chapter-divider" style="margin-bottom: 32px;"></div>
 
-            <!-- ================= ГЛАВА 02 ================= -->
+            <!-- ГЛАВА 02 -->
             <div class="chapter-header">
                 <div class="chapter-number">02</div>
                 <div class="chapter-title-group">
@@ -442,7 +392,7 @@
                 </a>
 
                 <a href="https://www.faceit.com/ru/players/mainnotfake" target="_blank" class="link-card">
-                    <div class="link-icon">🏆</div>
+                    <div class="link-icon"></div>
                     <div class="link-info">
                         <div class="link-name">FACEIT</div>
                         <div class="link-desc">mainnotfake</div>
@@ -477,12 +427,11 @@
                 </div>
             </div>
             
-            <!-- Нижний отступ для удобного скролла -->
             <div style="height: 40px;"></div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО ДОНАТА -->
+    <!-- МОДАЛКА -->
     <div class="modal-overlay" id="donateModal">
         <div class="modal-content">
             <button class="modal-close" id="closeDonateModal">&times;</button>
@@ -501,7 +450,6 @@
     </div>
 
     <script>
-        // Логика модального окна
         const openBtn = document.getElementById('openDonateModal');
         const modal = document.getElementById('donateModal');
         const closeBtn = document.getElementById('closeDonateModal');
