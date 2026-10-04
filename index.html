@@ -12,6 +12,7 @@
             height: 100%;
             overflow: hidden;
             background: #050508;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         canvas {
@@ -21,12 +22,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Сильное размытие убирает ЛЮБЫЕ артефакты */
             filter: blur(80px) saturate(1.2);
             transform: scale(1.15);
         }
 
-        /* Виньетка поверх */
         .vignette {
             position: fixed;
             inset: 0;
@@ -38,11 +37,120 @@
             pointer-events: none;
             z-index: 1;
         }
+
+        /* ===== СТЕКЛЯННОЕ ОКНО ===== */
+        .glass-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(85vw, 1200px);
+            height: min(80vh, 800px);
+            z-index: 2;
+
+            /* Основа стекла */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px) saturate(1.4);
+            -webkit-backdrop-filter: blur(40px) saturate(1.4);
+
+            /* Скругление */
+            border-radius: 24px;
+
+            /* Тонкая градиентная рамка */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                /* Внутреннее свечение сверху */
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
+                /* Внутренняя тень снизу */
+                inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
+                /* Внешняя тень для объёма */
+                0 30px 60px -20px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.02);
+
+            /* Плавный переход */
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Скрываем переполнение */
+            overflow: hidden;
+        }
+
+        /* Блик сверху — имитация отражения света */
+        .glass-window::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.15) 50%,
+                transparent 100%
+            );
+        }
+
+        /* Тонкий градиент по диагонали — глубина стекла */
+        .glass-window::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.02) 0%,
+                transparent 50%,
+                rgba(0, 0, 0, 0.05) 100%
+            );
+            pointer-events: none;
+            border-radius: 24px;
+        }
+
+        /* Лёгкое свечение при наведении */
+        .glass-window:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow:
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+                inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
+                0 40px 80px -20px rgba(0, 0, 0, 0.7),
+                0 0 80px -20px rgba(212, 175, 55, 0.08);
+        }
+
+        /* 4K адаптация */
+        @media (min-width: 2560px) {
+            .glass-window {
+                width: min(75vw, 1600px);
+                height: min(75vh, 1000px);
+                border-radius: 32px;
+            }
+            .glass-window::after { border-radius: 32px; }
+        }
+
+        @media (min-width: 3840px) {
+            .glass-window {
+                width: min(70vw, 2000px);
+                height: min(75vh, 1200px);
+                border-radius: 40px;
+            }
+            .glass-window::after { border-radius: 40px; }
+        }
+
+        /* Мобильные */
+        @media (max-width: 768px) {
+            .glass-window {
+                width: 92vw;
+                height: 85vh;
+                border-radius: 20px;
+            }
+            .glass-window::after { border-radius: 20px; }
+        }
     </style>
 </head>
 <body>
     <canvas id="bg"></canvas>
     <div class="vignette"></div>
+
+    <!-- Стеклянное окно -->
+    <div class="glass-window"></div>
 
     <script>
         const canvas = document.getElementById('bg');
@@ -51,7 +159,6 @@
         let width, height;
         let time = 0;
 
-        // Цветовые пятна
         const blobs = [
             { x: 0.3, y: 0.4, r: 0.5, color: [40, 25, 70], speed: 0.15 },
             { x: 0.7, y: 0.6, r: 0.45, color: [70, 35, 50], speed: 0.12 },
@@ -71,11 +178,9 @@
         function draw() {
             time += 0.005;
 
-            // Базовый цвет
             ctx.fillStyle = '#050508';
             ctx.fillRect(0, 0, width, height);
 
-            // Рисуем пятна
             blobs.forEach((blob, i) => {
                 const x = (blob.x + Math.sin(time * blob.speed + i) * 0.1) * width;
                 const y = (blob.y + Math.cos(time * blob.speed * 0.8 + i) * 0.1) * height;
