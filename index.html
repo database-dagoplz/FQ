@@ -196,6 +196,7 @@
             display: flex;
             gap: 40px;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -229,6 +230,90 @@
 
         .nav-links a:hover::before {
             opacity: 1;
+        }
+
+        /* ===== LANGUAGE SWITCHER ===== */
+        .lang-switcher {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .lang-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--glass);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+        }
+
+        .lang-button:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--accent);
+        }
+
+        .lang-button i {
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .lang-button.active i {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            min-width: 180px;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .lang-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .lang-option:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--text-primary);
+        }
+
+        .lang-option.active {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--accent);
+        }
+
+        .lang-flag {
+            font-size: 20px;
         }
 
         /* ===== HERO SECTION ===== */
@@ -954,6 +1039,10 @@
             .cursor, .cursor-dot {
                 display: none;
             }
+
+            .lang-switcher {
+                margin-left: 0;
+            }
         }
 
         /* ===== 4K OPTIMIZATION ===== */
@@ -990,10 +1079,35 @@
         <div class="nav-content">
             <a href="#" class="logo">Portfolio.</a>
             <ul class="nav-links">
-                <li><a href="#about">Обо мне</a></li>
-                <li><a href="#skills">Навыки</a></li>
-                <li><a href="#experience">Опыт</a></li>
-                <li><a href="#contact">Контакты</a></li>
+                <li><a href="#about" data-i18n="nav_about">Обо мне</a></li>
+                <li><a href="#skills" data-i18n="nav_skills">Навыки</a></li>
+                <li><a href="#experience" data-i18n="nav_experience">Опыт</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">Контакты</a></li>
+                <li class="lang-switcher">
+                    <button class="lang-button" id="langButton">
+                        <span id="currentLangFlag">🇷🇺</span>
+                        <span id="currentLangName">RU</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option" data-lang="ru">
+                            <span class="lang-flag">🇷🇺</span>
+                            <span>Русский</span>
+                        </div>
+                        <div class="lang-option" data-lang="pl">
+                            <span class="lang-flag">🇵🇱</span>
+                            <span>Polski</span>
+                        </div>
+                        <div class="lang-option" data-lang="de">
+                            <span class="lang-flag">🇩🇪</span>
+                            <span>Deutsch</span>
+                        </div>
+                        <div class="lang-option" data-lang="en">
+                            <span class="lang-flag">🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
@@ -1003,25 +1117,25 @@
         <div class="hero-content">
             <div class="hero-badge">
                 <span class="dot"></span>
-                <span>Доступен для проектов</span>
+                <span data-i18n="hero_badge">Доступен для проектов</span>
             </div>
             <h1 class="hero-title">Иван Петров</h1>
             <p class="hero-subtitle">
-                Создаю <span class="accent">цифровые продукты</span> на стыке дизайна и технологий
+                <span data-i18n="hero_subtitle_1">Создаю</span> <span class="accent" data-i18n="hero_subtitle_2">цифровые продукты</span> <span data-i18n="hero_subtitle_3">на стыке дизайна и технологий</span>
             </p>
             <div class="hero-cta">
                 <a href="#contact" class="btn btn-primary">
                     <i class="fas fa-paper-plane"></i>
-                    Связаться
+                    <span data-i18n="btn_contact">Связаться</span>
                 </a>
                 <a href="#about" class="btn btn-secondary">
                     <i class="fas fa-arrow-down"></i>
-                    Узнать больше
+                    <span data-i18n="btn_more">Узнать больше</span>
                 </a>
             </div>
         </div>
         <div class="scroll-indicator">
-            <span>Scroll</span>
+            <span data-i18n="scroll">Scroll</span>
             <div class="scroll-line"></div>
         </div>
     </section>
@@ -1030,8 +1144,8 @@
     <section id="about">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-label">Обо мне</div>
-                <h2 class="section-title">Краткая история<br>моего пути</h2>
+                <div class="section-label" data-i18n="about_label">Обо мне</div>
+                <h2 class="section-title" data-i18n="about_title">Краткая история<br>моего пути</h2>
             </div>
 
             <div class="about-grid">
@@ -1043,29 +1157,29 @@
                 </div>
 
                 <div class="about-content reveal">
-                    <h3>Привет, я Иван</h3>
+                    <h3 data-i18n="about_greeting">Привет, я Иван</h3>
                     <p>
-                        <strong>Full-stack разработчик и UI/UX дизайнер</strong> с более чем 7-летним опытом создания цифровых продуктов. Специализируюсь на разработке высоконагруженных веб-приложений и создании интуитивных пользовательских интерфейсов.
+                        <strong data-i18n="about_role">Full-stack разработчик и UI/UX дизайнер</strong> <span data-i18n="about_exp">с более чем 7-летним опытом создания цифровых продуктов. Специализируюсь на разработке высоконагруженных веб-приложений и создании интуитивных пользовательских интерфейсов.</span>
                     </p>
                     <p>
-                        Моя страсть — превращать сложные задачи в элегантные решения. Верю, что хороший код — это искусство, а отличный дизайн — это функция. Работал с компаниями из списка Fortune 500 и помог запустить более 50 успешных продуктов.
+                        <span data-i18n="about_passion_1">Моя страсть — превращать сложные задачи в элегантные решения. Верю, что хороший код — это искусство, а отличный дизайн — это функция. Работал с компаниями из списка Fortune 500 и помог запустить более 50 успешных продуктов.</span>
                     </p>
                     <p>
-                        Когда не пишу код, изучаю новые технологии, читаю книги по психологии дизайна и путешествую в поисках вдохновения.
+                        <span data-i18n="about_passion_2">Когда не пишу код, изучаю новые технологии, читаю книги по психологии дизайна и путешествую в поисках вдохновения.</span>
                     </p>
 
                     <div class="about-stats">
                         <div class="stat">
                             <div class="stat-number" data-target="7">0</div>
-                            <div class="stat-label">Лет опыта</div>
+                            <div class="stat-label" data-i18n="stat_years">Лет опыта</div>
                         </div>
                         <div class="stat">
                             <div class="stat-number" data-target="50">0</div>
-                            <div class="stat-label">Проектов</div>
+                            <div class="stat-label" data-i18n="stat_projects">Проектов</div>
                         </div>
                         <div class="stat">
                             <div class="stat-number" data-target="30">0</div>
-                            <div class="stat-label">Клиентов</div>
+                            <div class="stat-label" data-i18n="stat_clients">Клиентов</div>
                         </div>
                     </div>
                 </div>
@@ -1077,9 +1191,9 @@
     <section id="skills" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-label">Навыки</div>
-                <h2 class="section-title">Мой арсенал<br>технологий</h2>
-                <p class="section-subtitle">Инструменты и технологии, с которыми я работаю каждый день</p>
+                <div class="section-label" data-i18n="skills_label">Навыки</div>
+                <h2 class="section-title" data-i18n="skills_title">Мой арсенал<br>технологий</h2>
+                <p class="section-subtitle" data-i18n="skills_subtitle">Инструменты и технологии, с которыми я работаю каждый день</p>
             </div>
 
             <div class="skills-grid">
@@ -1087,8 +1201,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-code"></i>
                     </div>
-                    <h3>Frontend</h3>
-                    <p>Создаю быстрые и отзывчивые интерфейсы с использованием современных фреймворков</p>
+                    <h3 data-i18n="skill_frontend">Frontend</h3>
+                    <p data-i18n="skill_frontend_desc">Создаю быстрые и отзывчивые интерфейсы с использованием современных фреймворков</p>
                     <div class="skill-tags">
                         <span class="tag">React</span>
                         <span class="tag">Vue</span>
@@ -1101,8 +1215,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-server"></i>
                     </div>
-                    <h3>Backend</h3>
-                    <p>Разрабатываю масштабируемые серверные решения и API для высоконагруженных систем</p>
+                    <h3 data-i18n="skill_backend">Backend</h3>
+                    <p data-i18n="skill_backend_desc">Разрабатываю масштабируемые серверные решения и API для высоконагруженных систем</p>
                     <div class="skill-tags">
                         <span class="tag">Node.js</span>
                         <span class="tag">Python</span>
@@ -1115,8 +1229,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-paint-brush"></i>
                     </div>
-                    <h3>Дизайн</h3>
-                    <p>Проектирую пользовательские интерфейсы, ориентированные на конверсию и UX</p>
+                    <h3 data-i18n="skill_design">Дизайн</h3>
+                    <p data-i18n="skill_design_desc">Проектирую пользовательские интерфейсы, ориентированные на конверсию и UX</p>
                     <div class="skill-tags">
                         <span class="tag">Figma</span>
                         <span class="tag">Adobe CC</span>
@@ -1129,8 +1243,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Mobile</h3>
-                    <p>Создаю кроссплатформенные мобильные приложения с нативным опытом</p>
+                    <h3 data-i18n="skill_mobile">Mobile</h3>
+                    <p data-i18n="skill_mobile_desc">Создаю кроссплатформенные мобильные приложения с нативным опытом</p>
                     <div class="skill-tags">
                         <span class="tag">React Native</span>
                         <span class="tag">Flutter</span>
@@ -1143,8 +1257,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-cloud"></i>
                     </div>
-                    <h3>DevOps</h3>
-                    <p>Настраиваю CI/CD пайплайны и облачную инфраструктуру для надежного деплоя</p>
+                    <h3 data-i18n="skill_devops">DevOps</h3>
+                    <p data-i18n="skill_devops_desc">Настраиваю CI/CD пайплайны и облачную инфраструктуру для надежного деплоя</p>
                     <div class="skill-tags">
                         <span class="tag">AWS</span>
                         <span class="tag">Docker</span>
@@ -1157,8 +1271,8 @@
                     <div class="skill-icon">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3>AI / ML</h3>
-                    <p>Интегрирую искусственный интеллект и машинное обучение в продукты</p>
+                    <h3 data-i18n="skill_ai">AI / ML</h3>
+                    <p data-i18n="skill_ai_desc">Интегрирую искусственный интеллект и машинное обучение в продукты</p>
                     <div class="skill-tags">
                         <span class="tag">OpenAI</span>
                         <span class="tag">TensorFlow</span>
@@ -1174,48 +1288,48 @@
     <section id="experience">
         <div class="container">
             <div class="section-header reveal">
-                <div class="section-label">Опыт</div>
-                <h2 class="section-title">Мой профессиональный<br>путь</h2>
+                <div class="section-label" data-i18n="exp_label">Опыт</div>
+                <h2 class="section-title" data-i18n="exp_title">Мой профессиональный<br>путь</h2>
             </div>
 
             <div class="timeline">
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date">2022 — НАСТОЯЩЕЕ ВРЕМЯ</div>
+                    <div class="timeline-date" data-i18n="exp_1_date">2022 — НАСТОЯЩЕЕ ВРЕМЯ</div>
                     <div class="timeline-content">
-                        <h3>Senior Full-Stack Developer</h3>
+                        <h3 data-i18n="exp_1_title">Senior Full-Stack Developer</h3>
                         <div class="company">Tech Company Inc.</div>
-                        <p>Руковожу командой из 8 разработчиков. Архитектура и разработка платформы с 2M+ пользователей. Внедрил микросервисную архитектуру, что увеличило производительность на 300%.</p>
+                        <p data-i18n="exp_1_desc">Руковожу командой из 8 разработчиков. Архитектура и разработка платформы с 2M+ пользователей. Внедрил микросервисную архитектуру, что увеличило производительность на 300%.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date">2020 — 2022</div>
+                    <div class="timeline-date" data-i18n="exp_2_date">2020 — 2022</div>
                     <div class="timeline-content">
-                        <h3>Lead Frontend Developer</h3>
+                        <h3 data-i18n="exp_2_title">Lead Frontend Developer</h3>
                         <div class="company">Digital Agency</div>
-                        <p>Разработка enterprise-решений для крупных брендов. Создал дизайн-систему, используемую в 15+ продуктах компании. Менторинг junior-разработчиков.</p>
+                        <p data-i18n="exp_2_desc">Разработка enterprise-решений для крупных брендов. Создал дизайн-систему, используемую в 15+ продуктах компании. Менторинг junior-разработчиков.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date">2018 — 2020</div>
+                    <div class="timeline-date" data-i18n="exp_3_date">2018 — 2020</div>
                     <div class="timeline-content">
-                        <h3>UI/UX Designer & Developer</h3>
+                        <h3 data-i18n="exp_3_title">UI/UX Designer & Developer</h3>
                         <div class="company">Startup Studio</div>
-                        <p>Полный цикл разработки продуктов: от исследования и прототипирования до запуска. Участвовал в создании 3 стартапов, 2 из которых привлекли инвестиции.</p>
+                        <p data-i18n="exp_3_desc">Полный цикл разработки продуктов: от исследования и прототипирования до запуска. Участвовал в создании 3 стартапов, 2 из которых привлекли инвестиции.</p>
                     </div>
                 </div>
 
                 <div class="timeline-item reveal">
                     <div class="timeline-dot"></div>
-                    <div class="timeline-date">2017 — 2018</div>
+                    <div class="timeline-date" data-i18n="exp_4_date">2017 — 2018</div>
                     <div class="timeline-content">
-                        <h3>Junior Developer</h3>
+                        <h3 data-i18n="exp_4_title">Junior Developer</h3>
                         <div class="company">Web Studio</div>
-                        <p>Начало карьеры. Разработка лендингов и корпоративных сайтов. Изучение основ веб-разработки и дизайна. Первые коммерческие проекты.</p>
+                        <p data-i18n="exp_4_desc">Начало карьеры. Разработка лендингов и корпоративных сайтов. Изучение основ веб-разработки и дизайна. Первые коммерческие проекты.</p>
                     </div>
                 </div>
             </div>
@@ -1228,16 +1342,16 @@
             <div class="contact-wrapper reveal">
                 <div class="contact-grid">
                     <div class="contact-info">
-                        <div class="section-label">Контакты</div>
-                        <h3>Давайте создадим<br>что-то великое</h3>
-                        <p>Открыт для интересных проектов, сотрудничества и новых возможностей. Напишите мне — отвечу в течение 24 часов.</p>
+                        <div class="section-label" data-i18n="contact_label">Контакты</div>
+                        <h3 data-i18n="contact_title">Давайте создадим<br>что-то великое</h3>
+                        <p data-i18n="contact_desc">Открыт для интересных проектов, сотрудничества и новых возможностей. Напишите мне — отвечу в течение 24 часов.</p>
                     </div>
 
                     <div class="contact-links">
                         <a href="mailto:hello@example.com" class="contact-link">
                             <i class="fas fa-envelope"></i>
                             <div class="contact-link-text">
-                                <span class="contact-link-label">Email</span>
+                                <span class="contact-link-label" data-i18n="contact_email">Email</span>
                                 <span class="contact-link-value">hello@example.com</span>
                             </div>
                         </a>
@@ -1245,7 +1359,7 @@
                         <a href="https://t.me/username" class="contact-link" target="_blank">
                             <i class="fab fa-telegram-plane"></i>
                             <div class="contact-link-text">
-                                <span class="contact-link-label">Telegram</span>
+                                <span class="contact-link-label" data-i18n="contact_telegram">Telegram</span>
                                 <span class="contact-link-value">@username</span>
                             </div>
                         </a>
@@ -1253,7 +1367,7 @@
                         <a href="https://github.com/username" class="contact-link" target="_blank">
                             <i class="fab fa-github"></i>
                             <div class="contact-link-text">
-                                <span class="contact-link-label">GitHub</span>
+                                <span class="contact-link-label" data-i18n="contact_github">GitHub</span>
                                 <span class="contact-link-value">github.com/username</span>
                             </div>
                         </a>
@@ -1261,7 +1375,7 @@
                         <a href="https://linkedin.com/in/username" class="contact-link" target="_blank">
                             <i class="fab fa-linkedin-in"></i>
                             <div class="contact-link-text">
-                                <span class="contact-link-label">LinkedIn</span>
+                                <span class="contact-link-label" data-i18n="contact_linkedin">LinkedIn</span>
                                 <span class="contact-link-value">linkedin.com/in/username</span>
                             </div>
                         </a>
@@ -1274,7 +1388,7 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="footer-text">© 2024 Иван Петров. Все права защищены.</div>
+            <div class="footer-text" data-i18n="footer_text">© 2024 Иван Петров. Все права защищены.</div>
             <div class="footer-socials">
                 <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 <a href="#" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
@@ -1285,6 +1399,333 @@
     </footer>
 
     <script>
+        // ===== TRANSLATIONS =====
+        const translations = {
+            ru: {
+                nav_about: 'Обо мне',
+                nav_skills: 'Навыки',
+                nav_experience: 'Опыт',
+                nav_contact: 'Контакты',
+                hero_badge: 'Доступен для проектов',
+                hero_subtitle_1: 'Создаю',
+                hero_subtitle_2: 'цифровые продукты',
+                hero_subtitle_3: 'на стыке дизайна и технологий',
+                btn_contact: 'Связаться',
+                btn_more: 'Узнать больше',
+                scroll: 'Scroll',
+                about_label: 'Обо мне',
+                about_title: 'Краткая история<br>моего пути',
+                about_greeting: 'Привет, я Иван',
+                about_role: 'Full-stack разработчик и UI/UX дизайнер',
+                about_exp: 'с более чем 7-летним опытом создания цифровых продуктов. Специализируюсь на разработке высоконагруженных веб-приложений и создании интуитивных пользовательских интерфейсов.',
+                about_passion_1: 'Моя страсть — превращать сложные задачи в элегантные решения. Верю, что хороший код — это искусство, а отличный дизайн — это функция. Работал с компаниями из списка Fortune 500 и помог запустить более 50 успешных продуктов.',
+                about_passion_2: 'Когда не пишу код, изучаю новые технологии, читаю книги по психологии дизайна и путешествую в поисках вдохновения.',
+                stat_years: 'Лет опыта',
+                stat_projects: 'Проектов',
+                stat_clients: 'Клиентов',
+                skills_label: 'Навыки',
+                skills_title: 'Мой арсенал<br>технологий',
+                skills_subtitle: 'Инструменты и технологии, с которыми я работаю каждый день',
+                skill_frontend: 'Frontend',
+                skill_frontend_desc: 'Создаю быстрые и отзывчивые интерфейсы с использованием современных фреймворков',
+                skill_backend: 'Backend',
+                skill_backend_desc: 'Разрабатываю масштабируемые серверные решения и API для высоконагруженных систем',
+                skill_design: 'Дизайн',
+                skill_design_desc: 'Проектирую пользовательские интерфейсы, ориентированные на конверсию и UX',
+                skill_mobile: 'Mobile',
+                skill_mobile_desc: 'Создаю кроссплатформенные мобильные приложения с нативным опытом',
+                skill_devops: 'DevOps',
+                skill_devops_desc: 'Настраиваю CI/CD пайплайны и облачную инфраструктуру для надежного деплоя',
+                skill_ai: 'AI / ML',
+                skill_ai_desc: 'Интегрирую искусственный интеллект и машинное обучение в продукты',
+                exp_label: 'Опыт',
+                exp_title: 'Мой профессиональный<br>путь',
+                exp_1_date: '2022 — НАСТОЯЩЕЕ ВРЕМЯ',
+                exp_1_title: 'Senior Full-Stack Developer',
+                exp_1_desc: 'Руковожу командой из 8 разработчиков. Архитектура и разработка платформы с 2M+ пользователей. Внедрил микросервисную архитектуру, что увеличило производительность на 300%.',
+                exp_2_date: '2020 — 2022',
+                exp_2_title: 'Lead Frontend Developer',
+                exp_2_desc: 'Разработка enterprise-решений для крупных брендов. Создал дизайн-систему, используемую в 15+ продуктах компании. Менторинг junior-разработчиков.',
+                exp_3_date: '2018 — 2020',
+                exp_3_title: 'UI/UX Designer & Developer',
+                exp_3_desc: 'Полный цикл разработки продуктов: от исследования и прототипирования до запуска. Участвовал в создании 3 стартапов, 2 из которых привлекли инвестиции.',
+                exp_4_date: '2017 — 2018',
+                exp_4_title: 'Junior Developer',
+                exp_4_desc: 'Начало карьеры. Разработка лендингов и корпоративных сайтов. Изучение основ веб-разработки и дизайна. Первые коммерческие проекты.',
+                contact_label: 'Контакты',
+                contact_title: 'Давайте создадим<br>что-то великое',
+                contact_desc: 'Открыт для интересных проектов, сотрудничества и новых возможностей. Напишите мне — отвечу в течение 24 часов.',
+                contact_email: 'Email',
+                contact_telegram: 'Telegram',
+                contact_github: 'GitHub',
+                contact_linkedin: 'LinkedIn',
+                footer_text: '© 2024 Иван Петров. Все права защищены.'
+            },
+            pl: {
+                nav_about: 'O mnie',
+                nav_skills: 'Umiejętności',
+                nav_experience: 'Doświadczenie',
+                nav_contact: 'Kontakt',
+                hero_badge: 'Dostępny dla projektów',
+                hero_subtitle_1: 'Tworzę',
+                hero_subtitle_2: 'produkty cyfrowe',
+                hero_subtitle_3: 'na styku designu i technologii',
+                btn_contact: 'Kontakt',
+                btn_more: 'Dowiedz się więcej',
+                scroll: 'Scroll',
+                about_label: 'O mnie',
+                about_title: 'Krótka historia<br>mojej drogi',
+                about_greeting: 'Cześć, jestem Ivan',
+                about_role: 'Full-stack developer i UI/UX designer',
+                about_exp: 'z ponad 7-letnim doświadczeniem w tworzeniu produktów cyfrowych. Specjalizuję się w tworzeniu wysokoobciążonych aplikacji webowych i intuicyjnych interfejsów użytkownika.',
+                about_passion_1: 'Moja pasja to zamienianie złożonych zadań w eleganckie rozwiązania. Wierzę, że dobry kod to sztuka, a świetny design to funkcja. Pracowałem z firmami z listy Fortune 500 i pomogłem uruchomić ponad 50 udanych produktów.',
+                about_passion_2: 'Kiedy nie piszę kodu, studiuję nowe technologie, czytam książki o psychologii designu i podróżuję w poszukiwaniu inspiracji.',
+                stat_years: 'Lat doświadczenia',
+                stat_projects: 'Projektów',
+                stat_clients: 'Klientów',
+                skills_label: 'Umiejętności',
+                skills_title: 'Mój arsenał<br>technologii',
+                skills_subtitle: 'Narzędzia i technologie, z którymi pracuję na co dzień',
+                skill_frontend: 'Frontend',
+                skill_frontend_desc: 'Tworzę szybkie i responsywne interfejsy przy użyciu nowoczesnych frameworków',
+                skill_backend: 'Backend',
+                skill_backend_desc: 'Opracowuję skalowalne rozwiązania serwerowe i API dla wysokoobciążonych systemów',
+                skill_design: 'Design',
+                skill_design_desc: 'Projektuję interfejsy użytkownika ukierunkowane na konwersję i UX',
+                skill_mobile: 'Mobile',
+                skill_mobile_desc: 'Tworzę跨平台owe aplikacje mobilne z natywnym doświadczeniem',
+                skill_devops: 'DevOps',
+                skill_devops_desc: 'Konfiguruję pipeline\'y CI/CD i infrastrukturę chmurową dla niezawodnego wdrożenia',
+                skill_ai: 'AI / ML',
+                skill_ai_desc: 'Integruję sztuczną inteligencję i uczenie maszynowe w produkty',
+                exp_label: 'Doświadczenie',
+                exp_title: 'Moja profesjonalna<br>droga',
+                exp_1_date: '2022 — TERAZ',
+                exp_1_title: 'Senior Full-Stack Developer',
+                exp_1_desc: 'Kieruję zespołem 8 developerów. Architektura i rozwój platformy z 2M+ użytkowników. Wdrożyłem architekturę mikrousług, co zwiększyło wydajność o 300%.',
+                exp_2_date: '2020 — 2022',
+                exp_2_title: 'Lead Frontend Developer',
+                exp_2_desc: 'Opracowanie rozwiązań enterprise dla dużych marek. Stworzyłem system designu używany w 15+ produktach firmy. Mentoring junior developerów.',
+                exp_3_date: '2018 — 2020',
+                exp_3_title: 'UI/UX Designer & Developer',
+                exp_3_desc: 'Pełny cykl rozwoju produktów: od badań i prototypowania do uruchomienia. Brałem udział w tworzeniu 3 startupów, z których 2 pozyskały inwestycje.',
+                exp_4_date: '2017 — 2018',
+                exp_4_title: 'Junior Developer',
+                exp_4_desc: 'Początek kariery. Tworzenie landing pages i stron korporacyjnych. Nauka podstaw web developmentu i designu. Pierwsze projekty komercyjne.',
+                contact_label: 'Kontakt',
+                contact_title: 'Stwórzmy razem<br>coś wielkiego',
+                contact_desc: 'Jestem otwarty na ciekawe projekty, współpracę i nowe możliwości. Napisz do mnie — odpowiem w ciągu 24 godzin.',
+                contact_email: 'Email',
+                contact_telegram: 'Telegram',
+                contact_github: 'GitHub',
+                contact_linkedin: 'LinkedIn',
+                footer_text: '© 2024 Ivan Petrov. Wszelkie prawa zastrzeżone.'
+            },
+            de: {
+                nav_about: 'Über mich',
+                nav_skills: 'Fähigkeiten',
+                nav_experience: 'Erfahrung',
+                nav_contact: 'Kontakt',
+                hero_badge: 'Verfügbar für Projekte',
+                hero_subtitle_1: 'Ich erstelle',
+                hero_subtitle_2: 'digitale Produkte',
+                hero_subtitle_3: 'an der Schnittstelle von Design und Technologie',
+                btn_contact: 'Kontakt',
+                btn_more: 'Mehr erfahren',
+                scroll: 'Scroll',
+                about_label: 'Über mich',
+                about_title: 'Kurze Geschichte<br>meines Weges',
+                about_greeting: 'Hallo, ich bin Ivan',
+                about_role: 'Full-Stack-Entwickler und UI/UX-Designer',
+                about_exp: 'mit über 7 Jahren Erfahrung in der Erstellung digitaler Produkte. Ich spezialisiere mich auf die Entwicklung hochbelasteter Webanwendungen und die Erstellung intuitiver Benutzeroberflächen.',
+                about_passion_1: 'Meine Leidenschaft ist es, komplexe Aufgaben in elegante Lösungen zu verwandeln. Ich glaube, dass guter Code Kunst ist und großartiges Design eine Funktion. Ich habe mit Fortune-500-Unternehmen gearbeitet und bei der Einführung von über 50 erfolgreichen Produkten geholfen.',
+                about_passion_2: 'Wenn ich keinen Code schreibe, studiere ich neue Technologien, lese Bücher über Designpsychologie und reise auf der Suche nach Inspiration.',
+                stat_years: 'Jahre Erfahrung',
+                stat_projects: 'Projekte',
+                stat_clients: 'Kunden',
+                skills_label: 'Fähigkeiten',
+                skills_title: 'Mein Arsenal<br>an Technologien',
+                skills_subtitle: 'Werkzeuge und Technologien, mit denen ich täglich arbeite',
+                skill_frontend: 'Frontend',
+                skill_frontend_desc: 'Ich erstelle schnelle und responsive Interfaces mit modernen Frameworks',
+                skill_backend: 'Backend',
+                skill_backend_desc: 'Ich entwickle skalierbare Serverlösungen und APIs für hochbelastete Systeme',
+                skill_design: 'Design',
+                skill_design_desc: 'Ich entwerfe benutzerorientierte Interfaces mit Fokus auf Konversion und UX',
+                skill_mobile: 'Mobile',
+                skill_mobile_desc: 'Ich erstelle plattformübergreifende mobile Apps mit nativem Erlebnis',
+                skill_devops: 'DevOps',
+                skill_devops_desc: 'Ich richte CI/CD-Pipelines und Cloud-Infrastruktur für zuverlässiges Deployment ein',
+                skill_ai: 'AI / ML',
+                skill_ai_desc: 'Ich integriere künstliche Intelligenz und Machine Learning in Produkte',
+                exp_label: 'Erfahrung',
+                exp_title: 'Mein professioneller<br>Weg',
+                exp_1_date: '2022 — HEUTE',
+                exp_1_title: 'Senior Full-Stack Developer',
+                exp_1_desc: 'Ich leite ein Team von 8 Entwicklern. Architektur und Entwicklung einer Plattform mit 2M+ Nutzern. Ich habe eine Microservices-Architektur implementiert, die die Leistung um 300% steigerte.',
+                exp_2_date: '2020 — 2022',
+                exp_2_title: 'Lead Frontend Developer',
+                exp_2_desc: 'Entwicklung von Enterprise-Lösungen für große Marken. Ich habe ein Design-System erstellt, das in 15+ Produkten des Unternehmens verwendet wird. Mentoring von Junior-Entwicklern.',
+                exp_3_date: '2018 — 2020',
+                exp_3_title: 'UI/UX Designer & Developer',
+                exp_3_desc: 'Vollständiger Produktentwicklungszyklus: von der Forschung und Prototypisierung bis zur Einführung. Ich war an der Gründung von 3 Startups beteiligt, von denen 2 Investitionen erhielten.',
+                exp_4_date: '2017 — 2018',
+                exp_4_title: 'Junior Developer',
+                exp_4_desc: 'Karrierestart. Entwicklung von Landing Pages und Corporate Websites. Erlernen der Grundlagen der Webentwicklung und des Designs. Erste kommerzielle Projekte.',
+                contact_label: 'Kontakt',
+                contact_title: 'Lassen Sie uns etwas<br>Großartiges schaffen',
+                contact_desc: 'Ich bin offen für interessante Projekte, Zusammenarbeit und neue Möglichkeiten. Schreiben Sie mir — ich antworte innerhalb von 24 Stunden.',
+                contact_email: 'Email',
+                contact_telegram: 'Telegram',
+                contact_github: 'GitHub',
+                contact_linkedin: 'LinkedIn',
+                footer_text: '© 2024 Ivan Petrov. Alle Rechte vorbehalten.'
+            },
+            en: {
+                nav_about: 'About',
+                nav_skills: 'Skills',
+                nav_experience: 'Experience',
+                nav_contact: 'Contact',
+                hero_badge: 'Available for projects',
+                hero_subtitle_1: 'I create',
+                hero_subtitle_2: 'digital products',
+                hero_subtitle_3: 'at the intersection of design and technology',
+                btn_contact: 'Get in touch',
+                btn_more: 'Learn more',
+                scroll: 'Scroll',
+                about_label: 'About me',
+                about_title: 'Brief history<br>of my journey',
+                about_greeting: 'Hi, I\'m Ivan',
+                about_role: 'Full-stack developer and UI/UX designer',
+                about_exp: 'with over 7 years of experience creating digital products. I specialize in developing high-load web applications and creating intuitive user interfaces.',
+                about_passion_1: 'My passion is turning complex tasks into elegant solutions. I believe that good code is art, and great design is a function. I\'ve worked with Fortune 500 companies and helped launch over 50 successful products.',
+                about_passion_2: 'When I\'m not coding, I study new technologies, read books on design psychology, and travel in search of inspiration.',
+                stat_years: 'Years of experience',
+                stat_projects: 'Projects',
+                stat_clients: 'Clients',
+                skills_label: 'Skills',
+                skills_title: 'My arsenal<br>of technologies',
+                skills_subtitle: 'Tools and technologies I work with every day',
+                skill_frontend: 'Frontend',
+                skill_frontend_desc: 'I create fast and responsive interfaces using modern frameworks',
+                skill_backend: 'Backend',
+                skill_backend_desc: 'I develop scalable server solutions and APIs for high-load systems',
+                skill_design: 'Design',
+                skill_design_desc: 'I design user interfaces focused on conversion and UX',
+                skill_mobile: 'Mobile',
+                skill_mobile_desc: 'I create cross-platform mobile applications with native experience',
+                skill_devops: 'DevOps',
+                skill_devops_desc: 'I set up CI/CD pipelines and cloud infrastructure for reliable deployment',
+                skill_ai: 'AI / ML',
+                skill_ai_desc: 'I integrate artificial intelligence and machine learning into products',
+                exp_label: 'Experience',
+                exp_title: 'My professional<br>journey',
+                exp_1_date: '2022 — PRESENT',
+                exp_1_title: 'Senior Full-Stack Developer',
+                exp_1_desc: 'I lead a team of 8 developers. Architecture and development of a platform with 2M+ users. I implemented a microservices architecture that increased performance by 300%.',
+                exp_2_date: '2020 — 2022',
+                exp_2_title: 'Lead Frontend Developer',
+                exp_2_desc: 'Development of enterprise solutions for major brands. I created a design system used in 15+ company products. Mentoring junior developers.',
+                exp_3_date: '2018 — 2020',
+                exp_3_title: 'UI/UX Designer & Developer',
+                exp_3_desc: 'Full product development cycle: from research and prototyping to launch. I participated in creating 3 startups, 2 of which received investment.',
+                exp_4_date: '2017 — 2018',
+                exp_4_title: 'Junior Developer',
+                exp_4_desc: 'Career start. Development of landing pages and corporate websites. Learning the basics of web development and design. First commercial projects.',
+                contact_label: 'Contact',
+                contact_title: 'Let\'s create<br>something great',
+                contact_desc: 'I\'m open to interesting projects, collaboration, and new opportunities. Write to me — I\'ll respond within 24 hours.',
+                contact_email: 'Email',
+                contact_telegram: 'Telegram',
+                contact_github: 'GitHub',
+                contact_linkedin: 'LinkedIn',
+                footer_text: '© 2024 Ivan Petrov. All rights reserved.'
+            }
+        };
+
+        // ===== LANGUAGE SWITCHER =====
+        const langButton = document.getElementById('langButton');
+        const langDropdown = document.getElementById('langDropdown');
+        const langOptions = document.querySelectorAll('.lang-option');
+        const currentLangFlag = document.getElementById('currentLangFlag');
+        const currentLangName = document.getElementById('currentLangName');
+
+        const langFlags = {
+            ru: '🇷🇺',
+            pl: '🇵🇱',
+            de: '🇩🇪',
+            en: '🇬🇧'
+        };
+
+        const langNames = {
+            ru: 'RU',
+            pl: 'PL',
+            de: 'DE',
+            en: 'EN'
+        };
+
+        // Toggle dropdown
+        langButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+            langButton.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!langButton.contains(e.target) && !langDropdown.contains(e.target)) {
+                langDropdown.classList.remove('show');
+                langButton.classList.remove('active');
+            }
+        });
+
+        // Language selection
+        langOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.getAttribute('data-lang');
+                setLanguage(lang);
+                
+                // Update active state
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                // Update button
+                currentLangFlag.textContent = langFlags[lang];
+                currentLangName.textContent = langNames[lang];
+                
+                // Close dropdown
+                langDropdown.classList.remove('show');
+                langButton.classList.remove('active');
+            });
+        });
+
+        function setLanguage(lang) {
+            // Save to localStorage
+            localStorage.setItem('preferredLanguage', lang);
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Translate all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // Load saved language or default to Russian
+        const savedLang = localStorage.getItem('preferredLanguage') || 'ru';
+        setLanguage(savedLang);
+        
+        // Set active state in dropdown
+        langOptions.forEach(option => {
+            if (option.getAttribute('data-lang') === savedLang) {
+                option.classList.add('active');
+            }
+        });
+
         // ===== CUSTOM CURSOR =====
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
