@@ -11,153 +11,90 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #07070c;
+            background: #050508;
         }
 
-        .bg {
+        canvas {
+            display: block;
             position: fixed;
-            inset: 0;
-            overflow: hidden;
-            background: #07070c;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Сильное размытие убирает ЛЮБЫЕ артефакты */
+            filter: blur(80px) saturate(1.2);
+            transform: scale(1.15);
         }
 
-        /* Базовый слой — плавный радиальный градиент */
-        .base {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse 120% 100% at 50% 120%, #14101f 0%, transparent 60%),
-                radial-gradient(ellipse 100% 80% at 0% 0%, #0f1420 0%, transparent 50%),
-                radial-gradient(ellipse 100% 80% at 100% 100%, #1a1220 0%, transparent 50%),
-                #07070c;
-        }
-
-        /* Тёплое пятно */
-        .warm {
-            position: absolute;
-            width: 80vmax;
-            height: 80vmax;
-            top: 20%;
-            left: 10%;
-            background: radial-gradient(
-                circle at center,
-                rgba(160, 120, 70, 0.12) 0%,
-                rgba(120, 90, 50, 0.06) 30%,
-                transparent 60%
-            );
-            filter: blur(60px);
-            animation: warmMove 20s ease-in-out infinite alternate;
-            mix-blend-mode: screen;
-        }
-
-        /* Холодное пятно */
-        .cool {
-            position: absolute;
-            width: 90vmax;
-            height: 90vmax;
-            bottom: 10%;
-            right: 5%;
-            background: radial-gradient(
-                circle at center,
-                rgba(70, 90, 140, 0.15) 0%,
-                rgba(50, 70, 120, 0.07) 30%,
-                transparent 60%
-            );
-            filter: blur(70px);
-            animation: coolMove 25s ease-in-out infinite alternate;
-            mix-blend-mode: screen;
-        }
-
-        /* Центральное сияние */
-        .center-glow {
-            position: absolute;
-            width: 70vmax;
-            height: 70vmax;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(
-                circle at center,
-                rgba(140, 110, 80, 0.08) 0%,
-                rgba(100, 80, 120, 0.05) 40%,
-                transparent 70%
-            );
-            filter: blur(50px);
-            animation: centerPulse 18s ease-in-out infinite alternate;
-            mix-blend-mode: screen;
-        }
-
-        /* Dithering — микроскопический шум, разбивает полосы */
-        .dither {
-            position: absolute;
-            inset: -100%;
-            width: 300%;
-            height: 300%;
-            opacity: 0.025;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            background-size: 256px 256px;
-            animation: ditherShift 3s steps(8) infinite;
-        }
-
-        /* Виньетка */
+        /* Виньетка поверх */
         .vignette {
-            position: absolute;
+            position: fixed;
             inset: 0;
             background: radial-gradient(
                 ellipse at center,
-                transparent 40%,
-                rgba(5, 5, 10, 0.5) 100%
+                transparent 30%,
+                rgba(3, 3, 6, 0.7) 100%
             );
             pointer-events: none;
-        }
-
-        @keyframes warmMove {
-            0%   { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(10%, 5%) scale(1.1); }
-        }
-
-        @keyframes coolMove {
-            0%   { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-8%, -6%) scale(1.15); }
-        }
-
-        @keyframes centerPulse {
-            0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-        }
-
-        @keyframes ditherShift {
-            0%   { transform: translate(0, 0); }
-            12%  { transform: translate(-5%, -10%); }
-            25%  { transform: translate(-15%, 5%); }
-            37%  { transform: translate(7%, -25%); }
-            50%  { transform: translate(-5%, 25%); }
-            62%  { transform: translate(-15%, 10%); }
-            75%  { transform: translate(15%, 0%); }
-            87%  { transform: translate(0%, 15%); }
-            100% { transform: translate(0, 0); }
-        }
-
-        /* 4K */
-        @media (min-width: 2560px) {
-            .warm, .cool, .center-glow { filter: blur(80px); }
-            .dither { background-size: 512px 512px; }
-        }
-        @media (min-width: 3840px) {
-            .warm, .cool, .center-glow { filter: blur(100px); }
-            .dither { background-size: 768px 768px; }
+            z-index: 1;
         }
     </style>
 </head>
 <body>
-    <div class="bg">
-        <div class="base"></div>
-        <div class="warm"></div>
-        <div class="cool"></div>
-        <div class="center-glow"></div>
-        <div class="dither"></div>
-        <div class="vignette"></div>
-    </div>
+    <canvas id="bg"></canvas>
+    <div class="vignette"></div>
+
+    <script>
+        const canvas = document.getElementById('bg');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        let time = 0;
+
+        // Цветовые пятна
+        const blobs = [
+            { x: 0.3, y: 0.4, r: 0.5, color: [40, 25, 70], speed: 0.15 },
+            { x: 0.7, y: 0.6, r: 0.45, color: [70, 35, 50], speed: 0.12 },
+            { x: 0.5, y: 0.5, r: 0.4, color: [30, 45, 80], speed: 0.18 },
+            { x: 0.2, y: 0.7, r: 0.35, color: [90, 70, 40], speed: 0.10 },
+            { x: 0.8, y: 0.3, r: 0.38, color: [50, 30, 60], speed: 0.14 },
+        ];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function draw() {
+            time += 0.005;
+
+            // Базовый цвет
+            ctx.fillStyle = '#050508';
+            ctx.fillRect(0, 0, width, height);
+
+            // Рисуем пятна
+            blobs.forEach((blob, i) => {
+                const x = (blob.x + Math.sin(time * blob.speed + i) * 0.1) * width;
+                const y = (blob.y + Math.cos(time * blob.speed * 0.8 + i) * 0.1) * height;
+                const r = blob.r * Math.max(width, height) * 0.8;
+
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, r);
+                const [r1, g1, b1] = blob.color;
+                gradient.addColorStop(0, `rgba(${r1}, ${g1}, ${b1}, 0.6)`);
+                gradient.addColorStop(0.4, `rgba(${r1}, ${g1}, ${b1}, 0.3)`);
+                gradient.addColorStop(1, `rgba(${r1}, ${g1}, ${b1}, 0)`);
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
 </body>
 </html>
