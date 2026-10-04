@@ -21,92 +21,83 @@
             background: #07070c;
         }
 
-        /* Базовый вращающийся conic-градиент */
-        .bg::before {
-            content: '';
+        /* Базовый слой — плавный радиальный градиент */
+        .base {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200vmax;
-            height: 200vmax;
-            transform: translate(-50%, -50%);
-            background: conic-gradient(
-                from 0deg at 50% 50%,
-                #0a0a14 0deg,
-                #1a1028 60deg,
-                #0f1a2e 120deg,
-                #1a1520 180deg,
-                #0a1a20 240deg,
-                #15102a 300deg,
-                #0a0a14 360deg
-            );
-            animation: rotate 60s linear infinite;
-            filter: blur(80px);
-            opacity: 0.7;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 120% 100% at 50% 120%, #14101f 0%, transparent 60%),
+                radial-gradient(ellipse 100% 80% at 0% 0%, #0f1420 0%, transparent 50%),
+                radial-gradient(ellipse 100% 80% at 100% 100%, #1a1220 0%, transparent 50%),
+                #07070c;
         }
 
-        /* Тёплое золотое сияние */
+        /* Тёплое пятно */
         .warm {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%);
+            width: 80vmax;
+            height: 80vmax;
+            top: 20%;
+            left: 10%;
             background: radial-gradient(
-                ellipse at 30% 40%,
-                rgba(180, 140, 80, 0.15) 0%,
-                transparent 50%
-            ),
-            radial-gradient(
-                ellipse at 70% 60%,
-                rgba(140, 100, 60, 0.1) 0%,
-                transparent 50%
+                circle at center,
+                rgba(160, 120, 70, 0.12) 0%,
+                rgba(120, 90, 50, 0.06) 30%,
+                transparent 60%
             );
-            animation: drift1 25s ease-in-out infinite alternate;
+            filter: blur(60px);
+            animation: warmMove 20s ease-in-out infinite alternate;
             mix-blend-mode: screen;
         }
 
-        /* Холодное синее сияние */
+        /* Холодное пятно */
         .cool {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%);
+            width: 90vmax;
+            height: 90vmax;
+            bottom: 10%;
+            right: 5%;
             background: radial-gradient(
-                ellipse at 60% 30%,
-                rgba(80, 100, 160, 0.2) 0%,
-                transparent 50%
-            ),
-            radial-gradient(
-                ellipse at 40% 70%,
-                rgba(60, 80, 140, 0.15) 0%,
-                transparent 50%
+                circle at center,
+                rgba(70, 90, 140, 0.15) 0%,
+                rgba(50, 70, 120, 0.07) 30%,
+                transparent 60%
             );
-            animation: drift2 30s ease-in-out infinite alternate-reverse;
+            filter: blur(70px);
+            animation: coolMove 25s ease-in-out infinite alternate;
             mix-blend-mode: screen;
         }
 
-        /* Тонкая световая полоса по центру */
-        .beam {
+        /* Центральное сияние */
+        .center-glow {
             position: absolute;
+            width: 70vmax;
+            height: 70vmax;
             top: 50%;
             left: 50%;
-            width: 120vmax;
-            height: 120vmax;
-            transform: translate(-50%, -50%) rotate(-15deg);
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(200, 180, 140, 0.04) 45%,
-                rgba(220, 200, 160, 0.08) 50%,
-                rgba(200, 180, 140, 0.04) 55%,
-                transparent 100%
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                circle at center,
+                rgba(140, 110, 80, 0.08) 0%,
+                rgba(100, 80, 120, 0.05) 40%,
+                transparent 70%
             );
-            animation: beamMove 15s ease-in-out infinite alternate;
+            filter: blur(50px);
+            animation: centerPulse 18s ease-in-out infinite alternate;
             mix-blend-mode: screen;
+        }
+
+        /* Dithering — микроскопический шум, разбивает полосы */
+        .dither {
+            position: absolute;
+            inset: -100%;
+            width: 300%;
+            height: 300%;
+            opacity: 0.025;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px 256px;
+            animation: ditherShift 3s steps(8) infinite;
         }
 
         /* Виньетка */
@@ -115,47 +106,57 @@
             inset: 0;
             background: radial-gradient(
                 ellipse at center,
-                transparent 0%,
-                transparent 50%,
-                rgba(5, 5, 10, 0.7) 100%
+                transparent 40%,
+                rgba(5, 5, 10, 0.5) 100%
             );
             pointer-events: none;
         }
 
-        @keyframes rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
+        @keyframes warmMove {
+            0%   { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(10%, 5%) scale(1.1); }
         }
 
-        @keyframes drift1 {
-            0%   { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-45%, -55%) scale(1.1); }
+        @keyframes coolMove {
+            0%   { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-8%, -6%) scale(1.15); }
         }
 
-        @keyframes drift2 {
-            0%   { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-55%, -45%) scale(1.15); }
+        @keyframes centerPulse {
+            0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
         }
 
-        @keyframes beamMove {
-            0%   { transform: translate(-50%, -50%) rotate(-15deg) scaleX(1); opacity: 0.6; }
-            100% { transform: translate(-50%, -50%) rotate(-10deg) scaleX(1.2); opacity: 1; }
+        @keyframes ditherShift {
+            0%   { transform: translate(0, 0); }
+            12%  { transform: translate(-5%, -10%); }
+            25%  { transform: translate(-15%, 5%); }
+            37%  { transform: translate(7%, -25%); }
+            50%  { transform: translate(-5%, 25%); }
+            62%  { transform: translate(-15%, 10%); }
+            75%  { transform: translate(15%, 0%); }
+            87%  { transform: translate(0%, 15%); }
+            100% { transform: translate(0, 0); }
         }
 
         /* 4K */
         @media (min-width: 2560px) {
-            .bg::before { filter: blur(120px); }
+            .warm, .cool, .center-glow { filter: blur(80px); }
+            .dither { background-size: 512px 512px; }
         }
         @media (min-width: 3840px) {
-            .bg::before { filter: blur(160px); }
+            .warm, .cool, .center-glow { filter: blur(100px); }
+            .dither { background-size: 768px 768px; }
         }
     </style>
 </head>
 <body>
     <div class="bg">
+        <div class="base"></div>
         <div class="warm"></div>
         <div class="cool"></div>
-        <div class="beam"></div>
+        <div class="center-glow"></div>
+        <div class="dither"></div>
         <div class="vignette"></div>
     </div>
 </body>
