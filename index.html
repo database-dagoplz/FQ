@@ -32,6 +32,7 @@
             z-index: 1;
         }
 
+        /* ===== СТЕКЛЯННОЕ ОКНО ===== */
         .glass-window {
             position: fixed;
             top: 50%; left: 50%;
@@ -53,157 +54,48 @@
             flex-direction: column;
         }
 
+        /* ===== ВЕРХНЯЯ ПОЛОСКА ===== */
         .header {
             height: 64px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 28px;
             background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            gap: 16px;
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
         }
 
-        .header-left, .header-center, .header-right {
+        .header-left, .header-right {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .header-center { flex: 1; justify-content: center; }
-
-        .widget {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
+        /* Заглушки для будущего функционала */
+        .header-placeholder {
+            width: 80px;
+            height: 28px;
+            border-radius: 6px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            transition: all 0.3s;
         }
 
-        .widget:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .widget-icon {
+        .header-placeholder.small {
             width: 32px;
             height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .widget-icon.faceit {
-            background: linear-gradient(135deg, #ff5500, #ff7700);
-            color: #fff;
-            font-family: 'Arial Black', sans-serif;
-        }
-
-        .widget-icon.steam {
-            background: linear-gradient(135deg, #1b2838, #2a475e);
-            color: #fff;
-        }
-
-        .widget-icon.cs2 {
-            background: linear-gradient(135deg, #d4a017, #f4c430);
-            color: #000;
-        }
-
-        .widget-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-        }
-
-        .widget-label {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-
-        .widget-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.9);
-            white-space: nowrap;
-        }
-
-        .widget-value.loading {
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 400;
-        }
-
-        .widget-value.error {
-            color: rgba(240, 140, 140, 0.8);
-        }
-
-        .level-dot {
-            width: 8px;
-            height: 8px;
             border-radius: 50%;
-            background: #ff5500;
-            box-shadow: 0 0 8px rgba(255, 85, 0, 0.6);
-            flex-shrink: 0;
         }
 
-        .level-dot.high {
-            background: #ffd700;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-        }
-
-        .divider {
-            width: 1px;
-            height: 24px;
-            background: rgba(255, 255, 255, 0.08);
-            margin: 0 4px;
-        }
-
-        .refresh-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .refresh-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .refresh-btn.spinning {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .content {
             flex: 1;
             position: relative;
             overflow: hidden;
         }
 
+        /* Блик и градиент окна */
         .glass-window::before {
             content: '';
             position: absolute;
@@ -223,6 +115,7 @@
             z-index: 10;
         }
 
+        /* 4K */
         @media (min-width: 2560px) {
             .glass-window { width: min(75vw, 1600px); height: min(75vh, 1000px); border-radius: 32px; }
             .header { height: 72px; padding: 0 36px; }
@@ -235,11 +128,10 @@
             .glass-window::after { border-radius: 40px; }
         }
 
-        @media (max-width: 900px) {
-            .header { flex-wrap: wrap; height: auto; padding: 12px 16px; gap: 8px; }
-            .header-center { order: 3; width: 100%; justify-content: center; }
-            .widget { padding: 6px 10px; }
-            .widget-value { font-size: 12px; }
+        @media (max-width: 768px) {
+            .glass-window { width: 92vw; height: 85vh; border-radius: 20px; }
+            .header { height: 56px; padding: 0 20px; }
+            .glass-window::after { border-radius: 20px; }
         }
     </style>
 </head>
@@ -248,187 +140,23 @@
     <div class="vignette"></div>
 
     <div class="glass-window">
+        <!-- Верхняя полоска -->
         <div class="header">
             <div class="header-left">
-                <div class="widget" id="faceitWidget">
-                    <div class="widget-icon faceit">F</div>
-                    <div class="widget-info">
-                        <div class="widget-label">FACEIT Level</div>
-                        <div class="widget-value loading" id="faceitLevel">загрузка...</div>
-                    </div>
-                </div>
-
-                <div class="widget" id="eloWidget">
-                    <div class="level-dot" id="eloDot"></div>
-                    <div class="widget-info">
-                        <div class="widget-label">ELO</div>
-                        <div class="widget-value loading" id="faceitElo">—</div>
-                    </div>
-                </div>
+                <div class="header-placeholder small"></div>
+                <div class="header-placeholder"></div>
             </div>
-
-            <div class="header-center">
-                <div class="widget" id="cs2Widget">
-                    <div class="widget-icon cs2">CS</div>
-                    <div class="widget-info">
-                        <div class="widget-label">CS2 Playtime</div>
-                        <div class="widget-value loading" id="cs2Hours">загрузка...</div>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="widget" id="steamWidget">
-                    <div class="widget-icon steam">S</div>
-                    <div class="widget-info">
-                        <div class="widget-label">Steam Level</div>
-                        <div class="widget-value loading" id="steamLevel">—</div>
-                    </div>
-                </div>
-            </div>
-
             <div class="header-right">
-                <button class="refresh-btn" id="refreshBtn" title="Обновить данные">↻</button>
+                <div class="header-placeholder small"></div>
+                <div class="header-placeholder small"></div>
             </div>
         </div>
 
+        <!-- Основной контент (пока пустой) -->
         <div class="content"></div>
     </div>
 
     <script>
-        // ===== НАСТРОЙКИ =====
-        const CONFIG = {
-            faceit: {
-                apiKey: '0c209ba1-04f3-492b-b6a3-cffef3e5d35c',
-                nickname: 'ВСТАВЬ_СВОЙ_FACEIT_НИК'  // ← ЗАМЕНИ НА СВОЙ НИК
-            },
-            steam: {
-                apiKey: '79363E66F64C16AEFB120AED130E54F5',
-                steamId64: 'ВСТАВЬ_СВОЙ_STEAM_ID64'  // ← ЗАМЕНИ НА СВОЙ ID64
-            },
-            cs2AppId: 730,
-            updateInterval: 5 * 60 * 1000
-        };
-
-        // ===== FACEIT API =====
-        async function fetchFaceitData() {
-            const { apiKey, nickname } = CONFIG.faceit;
-            
-            if (nickname === 'mainnotfake') {
-                document.getElementById('faceitLevel').textContent = 'укажи ник';
-                document.getElementById('faceitElo').textContent = '—';
-                return;
-            }
-
-            try {
-                const playerRes = await fetch(`https://open.faceit.com/data/v4/players?nickname=${nickname}`, {
-                    headers: { 'Authorization': `Bearer ${apiKey}` }
-                });
-
-                if (!playerRes.ok) throw new Error('FACEIT player not found');
-                const player = await playerRes.json();
-
-                const statsRes = await fetch(`https://open.faceit.com/data/v4/players/${player.player_id}/stats/cs2`, {
-                    headers: { 'Authorization': `Bearer ${apiKey}` }
-                });
-
-                const levelEl = document.getElementById('faceitLevel');
-                const eloEl = document.getElementById('faceitElo');
-                const dotEl = document.getElementById('eloDot');
-
-                const level = player.games?.cs2?.faceit_level || 0;
-                levelEl.textContent = `Level ${level}`;
-                levelEl.classList.remove('loading', 'error');
-
-                dotEl.className = 'level-dot' + (level >= 8 ? ' high' : '');
-
-                if (statsRes.ok) {
-                    const stats = await statsRes.json();
-                    const elo = stats.lifetime?.Elo || player.games?.cs2?.faceit_elo || 0;
-                    eloEl.textContent = elo.toLocaleString();
-                    eloEl.classList.remove('loading', 'error');
-                } else {
-                    eloEl.textContent = 'нет данных';
-                    eloEl.classList.add('error');
-                }
-            } catch (err) {
-                console.error('FACEIT error:', err);
-                document.getElementById('faceitLevel').textContent = 'ошибка';
-                document.getElementById('faceitLevel').classList.add('error');
-                document.getElementById('faceitElo').textContent = '—';
-            }
-        }
-
-        // ===== STEAM API =====
-        async function fetchSteamData() {
-            const { apiKey, steamId64 } = CONFIG.steam;
-            
-            if (steamId64 === '76561199790602722') {
-                document.getElementById('steamLevel').textContent = 'укажи ID';
-                document.getElementById('cs2Hours').textContent = '—';
-                return;
-            }
-
-            try {
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                
-                const levelRes = await fetch(
-                    `${proxyUrl}${encodeURIComponent(`https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=${apiKey}&steamid=${steamId64}`)}`
-                );
-                
-                const gamesRes = await fetch(
-                    `${proxyUrl}${encodeURIComponent(`https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${apiKey}&steamid=${steamId64}&include_appinfo=1&include_played_free_games=1`)}`
-                );
-
-                const levelEl = document.getElementById('steamLevel');
-                const hoursEl = document.getElementById('cs2Hours');
-
-                if (levelRes.ok) {
-                    const levelData = await levelRes.json();
-                    const level = levelData.response?.player_level || 0;
-                    levelEl.textContent = `Lvl ${level}`;
-                    levelEl.classList.remove('loading', 'error');
-                } else {
-                    levelEl.textContent = '—';
-                }
-
-                if (gamesRes.ok) {
-                    const gamesData = await gamesRes.json();
-                    const games = gamesData.response?.games || [];
-                    const cs2 = games.find(g => g.appid === CONFIG.cs2AppId);
-                    
-                    if (cs2) {
-                        const hours = Math.floor(cs2.playtime_forever / 60);
-                        hoursEl.textContent = `${hours}h`;
-                        hoursEl.classList.remove('loading', 'error');
-                    } else {
-                        hoursEl.textContent = '0h';
-                    }
-                } else {
-                    hoursEl.textContent = '—';
-                }
-            } catch (err) {
-                console.error('Steam error:', err);
-                document.getElementById('steamLevel').textContent = 'ошибка';
-                document.getElementById('steamLevel').classList.add('error');
-                document.getElementById('cs2Hours').textContent = '—';
-            }
-        }
-
-        async function updateAll() {
-            const btn = document.getElementById('refreshBtn');
-            btn.classList.add('spinning');
-            
-            await Promise.all([fetchFaceitData(), fetchSteamData()]);
-            
-            setTimeout(() => btn.classList.remove('spinning'), 500);
-        }
-
-        updateAll();
-        setInterval(updateAll, CONFIG.updateInterval);
-
-        document.getElementById('refreshBtn').addEventListener('click', updateAll);
-
         // ===== CANVAS ФОН =====
         const canvas = document.getElementById('bg');
         const ctx = canvas.getContext('2d');
