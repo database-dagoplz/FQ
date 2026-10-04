@@ -48,33 +48,79 @@
             height: min(80vh, 800px);
             z-index: 2;
 
-            /* Основа стекла */
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(40px) saturate(1.4);
             -webkit-backdrop-filter: blur(40px) saturate(1.4);
 
-            /* Скругление */
             border-radius: 24px;
-
-            /* Тонкая градиентная рамка */
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow:
-                /* Внутреннее свечение сверху */
                 inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
-                /* Внутренняя тень снизу */
                 inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
-                /* Внешняя тень для объёма */
                 0 30px 60px -20px rgba(0, 0, 0, 0.6),
                 0 0 0 1px rgba(255, 255, 255, 0.02);
 
-            /* Плавный переход */
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-            /* Скрываем переполнение */
+        /* ===== ВЕРХНЯЯ ПОЛОСКА ===== */
+        .header {
+            height: 64px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+
+            /* Чуть более плотный фон чем у окна */
+            background: rgba(255, 255, 255, 0.02);
+
+            /* Разделитель снизу */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+            /* Тонкий блик сверху */
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+        }
+
+        /* Левая часть — место под логотип/название */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Правая часть — место под кнопки/меню */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Заглушки для будущего функционала */
+        .header-placeholder {
+            width: 80px;
+            height: 28px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .header-placeholder.small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+        .content {
+            flex: 1;
+            position: relative;
             overflow: hidden;
         }
 
-        /* Блик сверху — имитация отражения света */
+        /* Блик сверху окна */
         .glass-window::before {
             content: '';
             position: absolute;
@@ -85,43 +131,36 @@
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.12) 50%,
                 transparent 100%
             );
+            z-index: 10;
         }
 
-        /* Тонкий градиент по диагонали — глубина стекла */
+        /* Диагональный градиент — глубина */
         .glass-window::after {
             content: '';
             position: absolute;
             inset: 0;
             background: linear-gradient(
                 135deg,
-                rgba(255, 255, 255, 0.02) 0%,
+                rgba(255, 255, 255, 0.015) 0%,
                 transparent 50%,
-                rgba(0, 0, 0, 0.05) 100%
+                rgba(0, 0, 0, 0.04) 100%
             );
             pointer-events: none;
             border-radius: 24px;
+            z-index: 10;
         }
 
-        /* Лёгкое свечение при наведении */
-        .glass-window:hover {
-            border-color: rgba(255, 255, 255, 0.12);
-            box-shadow:
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
-                inset 0 -1px 0 0 rgba(0, 0, 0, 0.2),
-                0 40px 80px -20px rgba(0, 0, 0, 0.7),
-                0 0 80px -20px rgba(212, 175, 55, 0.08);
-        }
-
-        /* 4K адаптация */
+        /* 4K */
         @media (min-width: 2560px) {
             .glass-window {
                 width: min(75vw, 1600px);
                 height: min(75vh, 1000px);
                 border-radius: 32px;
             }
+            .header { height: 72px; padding: 0 36px; }
             .glass-window::after { border-radius: 32px; }
         }
 
@@ -131,16 +170,17 @@
                 height: min(75vh, 1200px);
                 border-radius: 40px;
             }
+            .header { height: 80px; padding: 0 44px; }
             .glass-window::after { border-radius: 40px; }
         }
 
-        /* Мобильные */
         @media (max-width: 768px) {
             .glass-window {
                 width: 92vw;
                 height: 85vh;
                 border-radius: 20px;
             }
+            .header { height: 56px; padding: 0 20px; }
             .glass-window::after { border-radius: 20px; }
         }
     </style>
@@ -149,15 +189,28 @@
     <canvas id="bg"></canvas>
     <div class="vignette"></div>
 
-    <!-- Стеклянное окно -->
-    <div class="glass-window"></div>
+    <div class="glass-window">
+        <!-- Верхняя полоска -->
+        <div class="header">
+            <div class="header-left">
+                <div class="header-placeholder small"></div>
+                <div class="header-placeholder"></div>
+            </div>
+            <div class="header-right">
+                <div class="header-placeholder small"></div>
+                <div class="header-placeholder small"></div>
+            </div>
+        </div>
+
+        <!-- Основной контент (пока пустой) -->
+        <div class="content"></div>
+    </div>
 
     <script>
         const canvas = document.getElementById('bg');
         const ctx = canvas.getContext('2d');
 
-        let width, height;
-        let time = 0;
+        let width, height, time = 0;
 
         const blobs = [
             { x: 0.3, y: 0.4, r: 0.5, color: [40, 25, 70], speed: 0.15 },
@@ -177,7 +230,6 @@
 
         function draw() {
             time += 0.005;
-
             ctx.fillStyle = '#050508';
             ctx.fillRect(0, 0, width, height);
 
