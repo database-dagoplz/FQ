@@ -5,146 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #05050a;
-            -webkit-font-smoothing: antialiased;
+            background: #07070c;
         }
 
-        .aurora {
+        .bg {
             position: fixed;
             inset: 0;
             overflow: hidden;
-            background: #05050a;
+            background: #07070c;
         }
 
-        /* Базовый глубокий градиент */
-        .aurora::before {
+        /* Базовый вращающийся conic-градиент */
+        .bg::before {
             content: '';
             position: absolute;
-            inset: -50%;
-            background: 
-                radial-gradient(ellipse 80% 60% at 20% 40%, rgba(40, 30, 80, 0.8) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 80% at 80% 60%, rgba(80, 40, 60, 0.6) 0%, transparent 60%),
-                radial-gradient(ellipse 100% 100% at 50% 50%, rgba(10, 10, 25, 1) 0%, #05050a 100%);
-            animation: drift 40s ease-in-out infinite alternate;
-            will-change: transform;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                #0a0a14 0deg,
+                #1a1028 60deg,
+                #0f1a2e 120deg,
+                #1a1520 180deg,
+                #0a1a20 240deg,
+                #15102a 300deg,
+                #0a0a14 360deg
+            );
+            animation: rotate 60s linear infinite;
+            filter: blur(80px);
+            opacity: 0.7;
         }
 
-        /* Золотое сияние */
-        .aurora::after {
-            content: '';
+        /* Тёплое золотое сияние */
+        .warm {
             position: absolute;
-            inset: -50%;
-            background: 
-                radial-gradient(ellipse 50% 40% at 30% 70%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 50% at 70% 30%, rgba(180, 140, 60, 0.1) 0%, transparent 50%);
-            animation: glow 30s ease-in-out infinite alternate;
-            will-change: transform;
+            top: 50%;
+            left: 50%;
+            width: 150vmax;
+            height: 150vmax;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                ellipse at 30% 40%,
+                rgba(180, 140, 80, 0.15) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                ellipse at 70% 60%,
+                rgba(140, 100, 60, 0.1) 0%,
+                transparent 50%
+            );
+            animation: drift1 25s ease-in-out infinite alternate;
             mix-blend-mode: screen;
         }
 
-        /* Средний слой — фиолетово-синий */
-        .layer-mid {
+        /* Холодное синее сияние */
+        .cool {
             position: absolute;
-            inset: -50%;
-            background: 
-                radial-gradient(ellipse 70% 50% at 60% 50%, rgba(60, 40, 100, 0.5) 0%, transparent 55%),
-                radial-gradient(ellipse 50% 70% at 30% 60%, rgba(100, 50, 80, 0.4) 0%, transparent 55%);
-            animation: drift2 35s ease-in-out infinite alternate-reverse;
-            will-change: transform;
+            top: 50%;
+            left: 50%;
+            width: 150vmax;
+            height: 150vmax;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(
+                ellipse at 60% 30%,
+                rgba(80, 100, 160, 0.2) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                ellipse at 40% 70%,
+                rgba(60, 80, 140, 0.15) 0%,
+                transparent 50%
+            );
+            animation: drift2 30s ease-in-out infinite alternate-reverse;
             mix-blend-mode: screen;
         }
 
-        /* Верхний слой — тонкие блики */
-        .layer-top {
+        /* Тонкая световая полоса по центру */
+        .beam {
             position: absolute;
-            inset: -50%;
-            background: 
-                radial-gradient(ellipse 30% 20% at 40% 40%, rgba(255, 220, 150, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse 25% 25% at 70% 70%, rgba(150, 180, 255, 0.06) 0%, transparent 50%);
-            animation: shimmer 25s ease-in-out infinite alternate;
-            will-change: transform;
+            top: 50%;
+            left: 50%;
+            width: 120vmax;
+            height: 120vmax;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(200, 180, 140, 0.04) 45%,
+                rgba(220, 200, 160, 0.08) 50%,
+                rgba(200, 180, 140, 0.04) 55%,
+                transparent 100%
+            );
+            animation: beamMove 15s ease-in-out infinite alternate;
             mix-blend-mode: screen;
         }
 
-        /* Едва заметное зерно (не пиксели!) */
-        .grain {
-            position: absolute;
-            inset: 0;
-            opacity: 0.035;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-            background-size: 200px 200px;
-            animation: grainMove 8s steps(10) infinite;
-        }
-
-        /* Виньетка по краям */
+        /* Виньетка */
         .vignette {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 50%,
+                rgba(5, 5, 10, 0.7) 100%
+            );
             pointer-events: none;
         }
 
-        @keyframes drift {
-            0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50%  { transform: translate(5%, -3%) scale(1.05) rotate(2deg); }
-            100% { transform: translate(-3%, 4%) scale(0.98) rotate(-1deg); }
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes drift1 {
+            0%   { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-45%, -55%) scale(1.1); }
         }
 
         @keyframes drift2 {
-            0%   { transform: translate(0, 0) scale(1); }
-            50%  { transform: translate(-4%, 3%) scale(1.08); }
-            100% { transform: translate(3%, -5%) scale(0.95); }
+            0%   { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-55%, -45%) scale(1.15); }
         }
 
-        @keyframes glow {
-            0%   { transform: translate(0, 0) scale(1); opacity: 0.8; }
-            50%  { transform: translate(6%, 4%) scale(1.1); opacity: 1; }
-            100% { transform: translate(-4%, -3%) scale(0.95); opacity: 0.9; }
+        @keyframes beamMove {
+            0%   { transform: translate(-50%, -50%) rotate(-15deg) scaleX(1); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) rotate(-10deg) scaleX(1.2); opacity: 1; }
         }
 
-        @keyframes shimmer {
-            0%   { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(-8%, 6%) scale(1.15); }
-        }
-
-        @keyframes grainMove {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            20% { transform: translate(-15%, 5%); }
-            30% { transform: translate(7%, -25%); }
-            40% { transform: translate(-5%, 25%); }
-            50% { transform: translate(-15%, 10%); }
-            60% { transform: translate(15%, 0%); }
-            70% { transform: translate(0%, 15%); }
-            80% { transform: translate(3%, 35%); }
-            90% { transform: translate(-10%, 10%); }
-        }
-
-        /* 4K адаптация */
+        /* 4K */
         @media (min-width: 2560px) {
-            .grain { background-size: 400px 400px; }
+            .bg::before { filter: blur(120px); }
         }
         @media (min-width: 3840px) {
-            .grain { background-size: 600px 600px; }
+            .bg::before { filter: blur(160px); }
         }
     </style>
 </head>
 <body>
-    <div class="aurora">
-        <div class="layer-mid"></div>
-        <div class="layer-top"></div>
-        <div class="grain"></div>
+    <div class="bg">
+        <div class="warm"></div>
+        <div class="cool"></div>
+        <div class="beam"></div>
         <div class="vignette"></div>
     </div>
 </body>
