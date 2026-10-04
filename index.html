@@ -87,7 +87,7 @@
             border-radius: 50%;
         }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ С ВИДЖЕТОМ ===== */
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
         .content {
             flex: 1;
             position: relative;
@@ -95,20 +95,33 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 40px;
         }
 
-        /* Стиль для iframe виджета */
+        /* ===== СТИЛЬ ДЛЯ УМЕНЬШЕННОГО ВИДЖЕТА ===== */
         .widget-frame {
             width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            border: none;
+            max-width: 500px; /* Ограничиваем ширину */
+            height: 350px;    /* Фиксируем комфортную высоту */
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
-            background: transparent;
-            /* Легкая внутренняя тень для отделения виджета от стекла */
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.2); /* Темная подложка на случай прозрачных мест */
+            
+            /* Эффект парящей карточки */
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .widget-frame:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         /* Блик и градиент окна */
@@ -136,24 +149,24 @@
             .glass-window { width: min(75vw, 1600px); height: min(75vh, 1000px); border-radius: 32px; }
             .header { height: 72px; padding: 0 36px; }
             .glass-window::after { border-radius: 32px; }
-            .content { padding: 32px; }
-            .widget-frame { border-radius: 20px; }
+            .content { padding: 60px; }
+            .widget-frame { max-width: 600px; height: 420px; border-radius: 20px; }
         }
 
         @media (min-width: 3840px) {
             .glass-window { width: min(70vw, 2000px); height: min(75vh, 1200px); border-radius: 40px; }
             .header { height: 80px; padding: 0 44px; }
             .glass-window::after { border-radius: 40px; }
-            .content { padding: 40px; }
-            .widget-frame { border-radius: 24px; }
+            .content { padding: 80px; }
+            .widget-frame { max-width: 700px; height: 480px; border-radius: 24px; }
         }
 
         @media (max-width: 768px) {
             .glass-window { width: 92vw; height: 85vh; border-radius: 20px; }
             .header { height: 56px; padding: 0 20px; }
             .glass-window::after { border-radius: 20px; }
-            .content { padding: 16px; }
-            .widget-frame { border-radius: 12px; }
+            .content { padding: 20px; }
+            .widget-frame { max-width: 100%; height: 300px; border-radius: 12px; }
         }
     </style>
 </head>
@@ -174,7 +187,7 @@
             </div>
         </div>
 
-        <!-- Основной контент с виджетом -->
+        <!-- Основной контент с компактным виджетом -->
         <div class="content">
             <iframe 
                 src="https://strugly.com/inc/widget.php?widget_type=widget-mini&player=ea793d1e-51d6-4602-8101-bcd4528637b7&secret=f0762b5b7ad31ddfea25e05266e1d358" 
